@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="hu" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIsszió: Ökoszisztéma – Green City Pilot</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#F8FAFC',  // Világos háttér (Slate 50)
+                            card: '#FFFFFF',   // Hófehér kártyák
+                            accent: '#10B981', // Smaragdzöld (Ökológia)
+                            accentHover: '#0D9488', 
+                            purple: '#6D28D9', // Királylila (AI / Technológia)
+                            text: '#1E293B',   // Slate sötét szöveg
+                            muted: '#64748B'   // Tompított szürke
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .glow-green {
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+        }
+        .glow-purple {
+            box-shadow: 0 10px 25px -5px rgba(109, 40, 217, 0.2);
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .7; }
+        }
+        .role-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .role-card:hover {
+            transform: translateY(-6px);
+            border-color: #10B981;
+            box-shadow: 0 12px 20px -10px rgba(16, 185, 129, 0.15);
+        }
+    </style>
+</head>
+<body id="kezdolap" class="text-brand-text antialiased min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Navigáció -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+           <a href="#kezdolap" class="flex items-center gap-3 group">
+                <!-- A megadott logo.png beillesztése intelligens tartalékkal -->
+                <img src="logo.png" alt="MIsszió: Ökoszisztéma" class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-102" onerror="this.onerror=null; this.src='https://placehold.co/180x45/10b981/ffffff?text=MIsszi%C3%B3';">
+            </a>
+            <nav class="hidden md:flex items-center gap-6">
+                <a href="#kezdolap" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors">Kezdés</a>
+                <a href="#green-city" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors">A Küldetés</a>
+                <a href="#hyperdoc-select" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors">Szerepek & HyperDocok</a>
+                <a href="#mitutor-info" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors flex items-center gap-1">
+                    <i data-lucide="cpu" class="w-4 h-4 text-brand-accent animate-pulse"></i> MI Tutor
+                </a>
+            </nav>
+            <div>
+                <a href="#hyperdoc-select" class="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-brand-accent to-emerald-600 rounded-lg hover:opacity-95 transition-all shadow-sm flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Indítás
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Fő tartalom -->
+    <main class="flex-grow">
+
+        <!-- HERO SZEKCIÓ -->
+        <section class="relative py-12 md:py-16 px-4 sm:px-8 max-w-7xl mx-auto overflow-hidden">
+            <!-- Háttér dekorok -->
+            <div class="absolute top-10 left-10 w-72 h-72 bg-brand-accent/5 rounded-full blur-3xl -z-10"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl -z-10"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Bal oldal: Főcím, Gombok -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-100 rounded-full text-xs font-semibold text-brand-accent shadow-sm mx-auto lg:mx-0">
+                        <i data-lucide="zap" class="w-3.5 h-3.5 animate-bounce"></i> ZÖLD PEDAGÓGIAI PILOT
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none text-brand-text">
+                        A jövő nem vár rád.<br>
+                        <span class="bg-gradient-to-r from-brand-accent via-emerald-500 to-teal-600 bg-clip-text text-transparent">
+                            Te alakítod.
+                        </span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-brand-muted max-w-xl font-normal leading-relaxed">
+                        Felejtsd el a magolást és az unalmas elméleteket! Készülj fel a legmenőbb zöld kihívásra: tervezd meg a holnap fenntartható okosvárosát a saját szabályaid szerint, miközben a legújabb technológia és egy MI mentor támogat a küldetésedben.
+                    </p>
+
+                    <!-- Kiemelt Inspirációs Slogan Kártya -->
+                    <div id="slogan-box" class="p-5 bg-gradient-to-r from-emerald-50 to-teal-50/50 border-l-4 border-brand-accent rounded-r-2xl max-w-2xl shadow-sm text-left mx-auto lg:mx-0">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="quote" class="w-8 h-8 text-brand-accent/40 flex-shrink-0"></i>
+                            <p class="text-brand-text font-bold text-base sm:text-lg italic leading-relaxed">
+                                Lépj ki a tankönyvekből, tervezz valós megoldásokat, és használd a mesterséges intelligenciát társként!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#green-city" class="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-emerald-600 text-white font-bold rounded-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 glow-green text-base">
+                            <i data-lucide="compass" class="w-5 h-5"></i> Fedezd fel a Küldetést!
+                        </a>
+                        <!-- Éles átirányítás a Streamlit MI Tutorra -->
+                        <a href="https://greencity-mitutor.streamlit.app/" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-white border border-slate-200 hover:border-brand-accent text-brand-text font-bold rounded-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 text-base shadow-sm">
+                            <i data-lucide="external-link" class="w-5 h-5 text-brand-accent"></i> MI Tutor Megnyitása
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Jobb oldal: JÖVŐ VÁROSA + AI INTEGRÁLT ILLUSZTRÁCIÓ -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md aspect-square rounded-3xl bg-[#ffffff]  p-1.5 border  shadow-4xl flex items-center justify-center group overflow-hidden">
+                           
+                        <!-- Körkörös animált hálózati dekoráció a háttérben -->
+                        <div class="absolute inset-4 border border-dashed border-emerald-500/20 rounded-full animate-spin-slow"></div>
+                        <div class="absolute inset-16 border border-emerald-500/10 rounded-full animate-reverse-spin"></div>
+
+                        <!-- A megadott city.jpg éles beágyazása modern átmenettel és prémium Unsplash zöldváros-tartalékkal -->
+                        <img src="city2.png" alt="Green City Pilot Koncepció" class="w-full h-full object-cover rounded-2xl relative z-10 transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=600&q=80';">
+
+                        <!-- Kis lebegő widgetek a képen -->
+                        <div class="absolute top-6 left-6 p-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-slate-200 flex items-center gap-1.5 text-xs font-bold text-brand-text z-20">
+                            <i data-lucide="leaf" class="w-4 h-4 text-brand-accent"></i>
+                            <span>ECO VIBES</span>
+                        </div>
+                        <div class="absolute bottom-6 right-6 p-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-slate-200 flex items-center gap-1.5 text-xs font-bold text-brand-accent z-20">
+                            <i data-lucide="cpu" class="w-4 h-4 text-brand-accent"></i>
+                            <span>AI INTEGRATION</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- KÜLDETÉS: GREEN CITY SZEKCIÓ -->
+        <section id="green-city" class="py-16 px-4 sm:px-8 bg-white border-y border-slate-200">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Bal oldal: Szöveges bemutatás -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-accent/10 border border-brand-accent/20 rounded-md text-xs font-bold text-brand-accent">
+                            A FŐ KÜLDETÉSED
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
+                            A Nagy Dobás: Építsd fel a saját <span class="bg-gradient-to-r from-brand-accent to-emerald-600 bg-clip-text text-transparent">Green City</span> koncepciódat!
+                        </h2>
+                        
+                        <p class="text-base text-brand-muted leading-relaxed">
+                            Gondolkoztál már azon, miért kell a városainknak szürke betonrengetegnek lenniük? Mi lenne, ha a jövő utcái lélegeznének, az energiát az intelligens hálózatok osztanák el, és a hulladék szót örökre kitörölnénk a szótárból? 
+                        </p>
+                        
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
+                            <p class="text-sm font-bold text-brand-text flex items-center gap-2">
+                                <i data-lucide="target" class="text-brand-accent w-5 h-5"></i>
+                                Mi az a Green City alapkoncepció?
+                            </p>
+                            <p class="text-xs text-brand-muted leading-relaxed">
+                                Ez egy olyan modern várostervezési szemlélet, ahol a természetes ökoszisztémák (növények, vizek, biodiverzitás) és a legújabb zöld technológiák (okos hálózatok, megújuló energia, önvezető zöld közlekedés) tökéletes egyensúlyban működnek együtt. A cél az élhetőbb, tisztább és teljesen önfenntartó városi terek létrehozása.
+                            </p>
+                        </div>
+
+                        <p class="text-sm font-medium text-brand-text">
+                            A ti feladatotok: válasszatok szerepet, tervezzétek meg a saját fenntartható okos-városrészeteket, és mutassátok meg, hogyan menti meg a technológia a jövőt!
+                        </p>
+                    </div>
+
+                    <!-- Jobb oldal: Miért jó ez neked? -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="bg-emerald-50/50 border border-emerald-100 p-6 rounded-2xl">
+                            <h3 class="font-extrabold text-brand-accent text-lg mb-2 flex items-center gap-2">
+                                <i data-lucide="sparkles" class="w-5 h-5"></i> Légy te a Jövő Tervezője!
+                            </h3>
+                            <p class="text-xs text-brand-muted leading-relaxed">
+                                Nincsenek előre megírt, kötelező válaszok. Ti döntitek el, milyen technológiát építetek be, hogyan oldjátok meg a víztisztítást, a hulladékkezelést vagy a zöld közlekedést. Teljes alkotói szabadság!
+                            </p>
+                        </div>
+
+                        <div class="bg-emerald-100/30 border border-emerald-200 p-6 rounded-2xl">
+                            <h3 class="font-extrabold text-brand-accent text-lg mb-2 flex items-center gap-2">
+                                <i data-lucide="brain" class="w-5 h-5"></i> AI-Támogatás 24/7
+                            </h3>
+                            <p class="text-xs text-brand-muted leading-relaxed">
+                                Nem maradsz magadra a nehéz kérdésekkel. A te személyes mentorod egy külső, felhő alapú biztonságos felületen vár rád, aki segít ötletelni, ellenőrzi a logikádat, vagy megmondja, min érdemes még finomítanod!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- KÜLDETÉSVEZÉRLŐ & 4 SZEREP KÜLÖN HYPERDOC-JA -->
+        <section id="hyperdoc-select" class="py-16 px-4 sm:px-8 max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 border border-emerald-200 rounded-md text-xs font-semibold text-brand-accent mb-4">
+                    1. LÉPÉS: VÁLASSZ SZEREPET ÉS TÖLTSD LE A TÉRKÉPEDET!
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
+                    Személyre Szabott Küldetésvezérlő HyperDoc-ok
+                </h2>
+                <p class="mt-3 text-brand-muted leading-relaxed">
+                    A siker kulcsa a szoros csapatmunka. Minden csapattagnak saját, névre szóló és szerepspecifikus **HyperDoc-ot** kell használnia. Kattints a saját szerepkörödre az egyéni feladatlapod letöltéséhez és a küldetés megkezdéséhez!
+                </p>
+            </div>
+
+            <!-- SZEREPKÖRI RÁCS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- 1. KÁRTYA: Várostervező mérnök -->
+                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-brand-accent flex items-center justify-center mb-4 border border-emerald-100">
+                            <i data-lucide="compass" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Várostervező Mérnök</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
+                            Felelsz az utcák, épületek tájolásáért, a fizikai terekért és a kék-zöld infrastruktúra (parkok, zöldtetők, esőkertek) megtervezéséért.
+                        </p>
+                    </div>
+                    <a href="misszio_green_city_hyperdoc_varostervezo.pdf" download="misszio_green_city_hyperdoc_varostervezo.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
+                        <i data-lucide="download" class="w-4 h-4"></i> Mérnök HyperDoc
+                    </a>
+                </div>
+
+                <!-- 2. KÁRTYA: Környezetvédelmi szakértő -->
+                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4 border border-emerald-200">
+                            <i data-lucide="leaf" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Ökológiai Szakértő</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
+                            Tervezd meg a fenntartható vízgazdálkodást, a biodiverzitást (méh- és madárbarát terek), a zöld energiát és a Zero Waste hulladékmenetességet.
+                        </p>
+                    </div>
+                    <a href="misszio_green_city_hyperdoc_kornyezet.pdf" download="misszio_green_city_hyperdoc_kornyezet.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
+                        <i data-lucide="download" class="w-4 h-4"></i> Ökológus HyperDoc
+                    </a>
+                </div>
+
+                <!-- 3. KÁRTYA: Digitális technológus -->
+                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center mb-4 border border-teal-100">
+                            <i data-lucide="cpu" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Digitális Technológus</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
+                            Kiépíted a Smart City idegrendszerét: az IoT szenzorhálózatot, az intelligens hálózati elosztókat és a zöld AI-irányítási rendszert.
+                        </p>
+                    </div>
+                    <a href="misszio_green_city_hyperdoc_digitalistech.pdf" download="misszio_green_city_hyperdoc_digitalistech.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
+                        <i data-lucide="download" class="w-4 h-4"></i> Technológus HyperDoc
+                    </a>
+                </div>
+
+                <!-- 4. KÁRTYA: Kommunikációs vezető -->
+                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-4 border border-emerald-100">
+                            <i data-lucide="megaphone" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Kommunikációs Vezető</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
+                            Felelsz a lakók bevonásáért, a gamifikált kampányokért, a "greenwashing" elkerüléséért és a csapat végső bemutatójának látványos tálalásáért.
+                        </p>
+                    </div>
+                    <a href="misszio_green_city_hyperdoc_tarsadalmi.pdf" download="misszio_green_city_hyperdoc_tarsadalmi.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
+                        <i data-lucide="download" class="w-4 h-4"></i> Kommunikációs HyperDoc
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MI TUTOR EXKLUZÍV PROMO SZEKCIÓ (Már nem beágyazva, hanem biztonságos felhő-hivatkozásként) -->
+        <section id="mitutor-info" class="py-16 px-4 sm:px-8 bg-white border-t border-slate-200">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Bal oldal: Illusztrált AI Mentor Kártya -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-md bg-gradient-to-br from-slate-50 to-emerald-50/40 border border-slate-200 rounded-3xl p-8 shadow-lg flex flex-col justify-between h-[450px]">
+                            <div class="space-y-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
+                                            <i data-lucide="bot" class="w-6 h-6"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-brand-text text-sm">MI Tutor v2.5</h4>
+                                            <div class="flex items-center gap-1.5">
+                                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                                                <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Aktív felhő-mentor</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 bg-white border border-slate-100 rounded-full text-[10px] font-semibold text-brand-muted shadow-sm">Streamlit App</span>
+                                </div>
+
+                                <div class="space-y-3 pt-2">
+                                    <!-- Minta párbeszéd buborékok -->
+                                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-xs text-brand-text shadow-sm max-w-[90%]">
+                                        <p class="font-bold text-emerald-600 mb-1">MI Tutor</p>
+                                        Szia! 👋 Készen állok arra, hogy zöld várostervezési guruként segítsem a csapatodat! promptolj bátran!
+                                    </div>
+                                    <div class="bg-emerald-50 p-4 rounded-2xl rounded-tr-none border border-emerald-100 text-xs text-brand-text shadow-sm max-w-[90%] ml-auto">
+                                        <p class="font-bold text-brand-accent mb-1 text-right">Te</p>
+                                        Hogyan tudnánk kevesebb beton használatával megoldani a lakótelepi parkolást?
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-brand-muted">
+                                <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Biztonságos kapcsolat</span>
+                                <span class="font-mono text-[10px]">groq-engine</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Jobb oldal: Kedvcsináló, előnyök és Launch gomb -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-md text-xs font-bold text-brand-accent">
+                            2. LÉPÉS: INDÍTSD EL AZ AI TÁRSADAT!
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
+                            Találkozz a felhőben élő <span class="bg-gradient-to-r from-brand-accent to-emerald-600 bg-clip-text text-transparent">MI Tutoroddal</span>!
+                        </h2>
+                        <p class="text-base text-brand-muted leading-relaxed">
+                            Az MI Tutor nem ezen a weboldalon lakik. Hogy az API kulcsod és a rendszered 100%-ban biztonságos legyen a diákok elől, egy **különálló, professzionális és rendkívül gyors felhőszerveren** (Streamlit & Groq) helyeztük el.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="flex items-start gap-3">
+                                <div class="p-2 bg-emerald-50 rounded-lg text-brand-accent flex-shrink-0"><i data-lucide="lock" class="w-5 h-5"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-brand-text">100% Kulcsbiztonság</h4>
+                                    <p class="text-xs text-brand-muted">A diákok soha nem férhetnek hozzá a fizetős AI-kulcsaidhoz.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="p-2 bg-emerald-50 rounded-lg text-brand-accent flex-shrink-0"><i data-lucide="zap" class="w-5 h-5"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-brand-text">Groq Villámsebesség</h4>
+                                    <p class="text-xs text-brand-muted">A válaszok ezredmásodpercek alatt megérkeznek a diákoknak.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NAGY LAUNCH GOMB -->
+                        <div class="pt-6">
+                            <a href="https://greencity-mitutor.streamlit.app/" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-brand-accent hover:bg-emerald-600 text-white font-bold rounded-2xl transition-all hover:scale-105 active:scale-95 glow-green w-full sm:w-auto justify-center text-lg shadow-lg">
+                                <i data-lucide="play-circle" class="w-6 h-6 animate-pulse-slow"></i>
+                                <span>Indítsd el a MI Tutort!</span>
+                            </a>
+                            <p class="text-[10px] text-brand-muted mt-2.5 text-center sm:text-left">
+                                Kattintásra a MI Tutor új böngészőlapon nyílik meg. Használd osztott képernyőn a HyperDoc mellett!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PROMPT KISOKOS ÉS ÚTMUTATÓ -->
+        <section id="utmutato" class="py-16 px-4 sm:px-8 max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-extrabold text-brand-text">💡 A Szuper-Promptoló Kisokos</h2>
+                <p class="mt-3 text-brand-muted">
+                    Tanulj meg úgy beszélgetni a mesterséges intelligenciával, mint a profi szoftvermérnökök és zöld szakemberek. Másold le és alakítsd át ezeket a bevált promptokat!
+                </p>
+            </div>
+
+            <!-- SZEREPKÖRI GYORSINDÍTÓ SABLONOK (OKOS KOPÍROZÁS) -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm mb-12 max-w-4xl mx-auto space-y-4">
+                <h3 class="font-bold text-base text-brand-text flex items-center gap-2">
+                    <i data-lucide="sparkles" class="text-brand-accent w-5 h-5"></i>
+                    Gyorsindító Sablonok (Másold le, nyisd meg a Tutort és illeszd be!)
+                </h3>
+                <p class="text-xs text-brand-muted">
+                    Kattints az alábbi szerepkör-specifikus sablonok egyikére. A rendszer automatikusan kimásolja a promptot a vágólapodra, neked csak be kell illesztened a megnyíló Streamlit MI Tutorba!
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                    <button onclick="quickPrompt('brainstorm')" class="p-4 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-brand-accent transition-all text-xs text-left flex justify-between items-center group shadow-sm">
+                        <div>
+                            <p class="font-bold text-brand-text group-hover:text-brand-accent">🧠 Zöld kampány ötletbörze</p>
+                            <p class="text-[10px] text-brand-muted mt-0.5">Kommunikációs vezetőknek</p>
+                        </div>
+                        <i data-lucide="copy" class="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors"></i>
+                    </button>
+                    <button onclick="quickPrompt('critic')" class="p-4 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-brand-accent transition-all text-xs text-left flex justify-between items-center group shadow-sm">
+                        <div>
+                            <p class="font-bold text-brand-text group-hover:text-brand-accent">⚖️ Ördög ügyvédje (Stressz-teszt)</p>
+                            <p class="text-[10px] text-brand-muted mt-0.5">Mérnököknek és technológusoknak</p>
+                        </div>
+                        <i data-lucide="copy" class="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors"></i>
+                    </button>
+                    <button onclick="quickPrompt('search')" class="p-4 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-brand-accent transition-all text-xs text-left flex justify-between items-center group shadow-sm">
+                        <div>
+                            <p class="font-bold text-brand-text group-hover:text-brand-accent">📊 Megbízható kutatási források</p>
+                            <p class="text-[10px] text-brand-muted mt-0.5">Környezetvédelmi szakértőknek</p>
+                        </div>
+                        <i data-lucide="copy" class="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Részletes prompt kártyák -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Ötletbörze -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">🧠</span>
+                            <h3 class="font-bold text-lg text-brand-accent">Ötletbörze (Brainstorm)</h3>
+                        </div>
+                        <p class="text-xs text-brand-muted mb-4 leading-relaxed">
+                            Új megközelítést keresel a Green City koncepciótokhoz? Próbáld ki ezt:
+                        </p>
+                        <blockquote id="prompt-brainstorm" class="bg-slate-50 p-4 rounded-xl text-xs text-brand-text border border-slate-100 font-mono leading-relaxed select-all">
+                            Egy olyan digitális kampányt tervezek középiskolásoknak, ami a tudatos vízfogyasztásról szól. Adj 5 egyedi, kreatív és meglepő ötletet, amivel felkelthetem a korosztályom figyelmét a közösségi médiában!
+                        </blockquote>
+                    </div>
+                    <button onclick="copyToClipboard('prompt-brainstorm')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 border border-slate-200 text-brand-text transition-colors shadow-sm">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Másolás vágólapra
+                    </button>
+                </div>
+
+                <!-- Ördög Ügyvédje -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">⚖️</span>
+                            <h3 class="font-bold text-lg text-emerald-800">Az Ördög Ügyvédje</h3>
+                        </div>
+                        <p class="text-xs text-brand-muted mb-4 leading-relaxed">
+                            Letesztelnéd a terved sebezhetőségeit a valóságban? Ezt másold be:
+                        </p>
+                        <blockquote id="prompt-critic" class="bg-slate-50 p-4 rounded-xl text-xs text-brand-text border border-slate-100 font-mono leading-relaxed select-all">
+                            A csapatommal azt találtuk ki, hogy egy applikációval gyűjtenénk a diákok szelektív hulladékgyűjtési pontjait. Kérlek, légy kritikus: mondj 3 olyan buktatót vagy nehézséget, amire nem gondoltunk, és javasolj rájuk megoldást!
+                        </blockquote>
+                    </div>
+                    <button onclick="copyToClipboard('prompt-critic')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 border border-slate-200 text-brand-text transition-colors shadow-sm">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Másolás vágólapra
+                    </button>
+                </div>
+
+                <!-- Adatgyűjtés -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">📊</span>
+                            <h3 class="font-bold text-lg text-brand-accent">Kutatás & Adatkeresés</h3>
+                        </div>
+                        <p class="text-xs text-brand-muted mb-4 leading-relaxed">
+                            Nem tudod, hol kezdd el keresni az adatokat a Green City-hez? Segítek:
+                        </p>
+                        <blockquote id="prompt-search" class="bg-slate-50 p-4 rounded-xl text-xs text-brand-text border border-slate-100 font-mono leading-relaxed select-all">
+                            A fenntartható divat témakörét kutatom. Milyen kulcsszavavlakkal vagy milyen típusú adatbázisokban érdemes keresnem, ha megbízható statisztikákat szeretnék találni a textilipar környezeti hatásairól?
+                        </blockquote>
+                    </div>
+                    <button onclick="copyToClipboard('prompt-search')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 border border-slate-200 text-brand-text transition-colors shadow-sm">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Másolás vágólapra
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-50 border-t border-slate-200 py-12 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col items-center md:items-start gap-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-brand-accent to-emerald-600 flex items-center justify-center text-white text-[10px] font-bold shadow-sm">
+                        MI
+                    </div>
+                    <span class="font-extrabold text-sm tracking-wider text-brand-text">MIsszió: Ökoszisztéma</span>
+                </div>
+                <p class="text-xs text-brand-muted text-center md:text-left">
+                    Pedagógiai Újító Módszertani Pilot Projekt &copy; 2026. Minden jog fenntartva.
+                </p>
+            </div>
+            <div class="flex flex-col items-center md:items-end gap-2 text-center md:text-right">
+                <span class="text-xs text-brand-muted font-light italic max-w-sm">
+                    "A fenntarthatóság nem a jövő, hanem a jelen digitális felelőssége."
+                </span>
+                <!-- Tanári / Iskolai info -->
+                <p class="text-[10px] text-brand-muted">
+                    Kérdésed van? Keresd a tanárodat a Google Classroomban vagy az iskolában.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TOAST ÉRTESÍTÉSEK -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+
+    <!-- JS CLIENT SIDE LOGIKA -->
+    <script>
+        // Lucide ikonok betöltése
+        lucide.createIcons();
+
+        // Modern görgető motor, amely kiküszöböli a sandboxed horgonylink hibákat
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                
+                // Ha külső Streamlit linkre kattintanak, hagyjuk az alapértelmezett megnyitást futni!
+                if (targetId.startsWith('http')) {
+                    return;
+                }
+                
+                e.preventDefault();
+                
+                if (targetId === '#kezdolap') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Toast üzenetek
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const colorClass = type === 'success' ? 'border-brand-accent text-brand-accent' : 'border-emerald-700 text-emerald-800 bg-emerald-50';
+            const icon = type === 'success' ? 'check-circle' : 'info';
+
+            toast.className = `flex items-center gap-3 bg-white border-l-4 ${colorClass} py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform translate-y-2 opacity-0 text-xs font-semibold max-w-sm border border-slate-200`;
+            toast.innerHTML = `
+                <i data-lucide="${icon}" class="w-4 h-4 flex-shrink-0"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 7000); 
+        }
+
+        // Lokális letöltési visszajelzés
+        function registerDownloadAttempt(event) {
+            // Ellenőrizzük, hogy helyi fájlrendszerről futunk-e (file://)
+            const isLocalFile = window.location.protocol === 'file:';
+            const filename = event.currentTarget.getAttribute('download');
+            
+            if (isLocalFile) {
+                showNotification(`💻 Lokális tesztelés: Megkezdődött a letöltés. Győződj meg róla, hogy a(z) "${filename}" fájl pontosan az index.html mellett van a mappádban!`, 'success');
+            } else {
+                showNotification(`📥 A(z) "${filename}" letöltése elindult!`);
+            }
+        }
+
+        // Vágólapra másolás (iframe biztonságos megoldás)
+        function copyToClipboard(elementId) {
+            const blockquote = document.getElementById(elementId);
+            if (!blockquote) return;
+            
+            const text = blockquote.innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed'; 
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification("Prompt sikeresen kimásolva a vágólapra! Illeszd be a megnyíló MI Tutorba.");
+            } catch (err) {
+                showNotification("Nem sikerült az automatikus másolás, kérlek jelöld ki manuálisan!", "error");
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        // Sablon promptok beillesztése, másolása és odagörgetése a MI Tutor megnyitóhoz
+        function quickPrompt(type) {
+            const promptMap = {
+                'brainstorm': 'Egy olyan digitális kampányt tervezek középiskolásoknak, ami a tudatos vízfogyasztásról szól. Adj 5 egyedi, kreatív és meglepő ötletet, amivel felkelthetem a korosztályom figyelmét a közösségi médiában!',
+                'critic': 'A csapatommal azt találtuk ki, hogy egy applikációval gyűjtenénk a diákok szelektív hulladékgyűjtési pontjait. Kérlek, légy kritikus: mondj 3 olyan buktatót vagy nehézséget, amire nem gondoltunk, és javasolj rájuk megoldást!',
+                'search': 'A fenntartható divat témakörét kutatom. Milyen kulcsszavakkal vagy milyen típusú adatbázisokban érdemes keresnem, ha megbízható statisztikákat szeretnék találni a textilipar környezeti hatásairól?'
+            };
+
+            const promptText = promptMap[type];
+            if (promptText) {
+                // Létrehozunk egy átmeneti textareát a másoláshoz
+                const textarea = document.createElement('textarea');
+                textarea.value = promptText;
+                textarea.style.position = 'fixed';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                // Finom görgetés fel a zöld bemutató kártyához, ahol a megnyitó gomb van
+                const target = document.getElementById('mitutor-info');
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                showNotification(`🧠 Sablon sikeresen kimásolva! Kattints a fenti "Indítsd el a MI Tutort" gombra, és illeszd be a Streamlit felületen!`, 'success');
+            }
+        }
+    </script>
+</body>
+</html>
