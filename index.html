@@ -1,657 +1,996 @@
 <!DOCTYPE html>
-<html lang="hu" class="scroll-smooth">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIsszió: Ökoszisztéma – Green City Pilot</title>
-    <!-- Tailwind CSS CDN -->
+    <title>MIsszió Ökoszisztéma - Tervezd újra a tanulást!</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            light: '#F8FAFC',  // Világos háttér (Slate 50)
-                            card: '#FFFFFF',   // Hófehér kártyák
-                            accent: '#10B981', // Smaragdzöld (Ökológia)
-                            accentHover: '#0D9488', 
-                            purple: '#6D28D9', // Királylila (AI / Technológia)
-                            text: '#1E293B',   // Slate sötét szöveg
-                            muted: '#64748B'   // Tompított szürke
-                        }
-                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        title: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        eco: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a', // Arculati főkategóriás zöld
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            950: '#052e16', // Mély fenyőzöld kontrasztszín
+                        },
                     }
                 }
             }
         }
     </script>
-    <!-- Google Fonts & Lucide Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8FAFC;
+        .custom-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
         }
-        .glow-green {
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+        .hero-pattern {
+            background-color: #ffffff;
+            background-image: radial-gradient(#16a34a 0.5px, transparent 0.5px), radial-gradient(#16a34a 0.5px, #ffffff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.05;
         }
-        .glow-purple {
-            box-shadow: 0 10px 25px -5px rgba(109, 40, 217, 0.2);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .animate-pulse-slow {
-            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-out forwards;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .7; }
-        }
-        .role-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .role-card:hover {
-            transform: translateY(-6px);
-            border-color: #10B981;
-            box-shadow: 0 12px 20px -10px rgba(16, 185, 129, 0.15);
-        }
+        /* ==== Kártyák lebegő animációja ==== */
+
+    .card-hover{
+        transition: all .35s ease;
+    }
+
+    .card-hover:hover{
+        transform: translateY(-8px) scale(1.03);
+        box-shadow:0 20px 40px rgba(0,0,0,.15);
+    }
+
     </style>
 </head>
-<body id="kezdolap" class="text-brand-text antialiased min-h-screen flex flex-col justify-between overflow-x-hidden">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
 
-    <!-- Navigáció -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-4 sm:px-8">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-           <a href="#kezdolap" class="flex items-center gap-3 group">
-                <!-- A megadott logo.png beillesztése intelligens tartalékkal -->
-                <img src="logo.png" alt="MIsszió: Ökoszisztéma" class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-102" onerror="this.onerror=null; this.src='https://placehold.co/180x45/10b981/ffffff?text=MIsszi%C3%B3';">
-            </a>
-            <nav class="hidden md:flex items-center gap-6">
-                <a href="#kezdolap" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors">Kezdés</a>
-                <a href="#green-city" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors">A Küldetés</a>
-                <a href="#hyperdoc-select" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors">Szerepek & HyperDocok</a>
-                <a href="#mitutor-info" class="text-sm font-medium text-brand-muted hover:text-brand-accent transition-colors flex items-center gap-1">
-                    <i data-lucide="cpu" class="w-4 h-4 text-brand-accent animate-pulse"></i> MI Tutor
-                </a>
-            </nav>
-            <div>
-                <a href="#hyperdoc-select" class="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-brand-accent to-emerald-600 rounded-lg hover:opacity-95 transition-all shadow-sm flex items-center gap-2">
-                    <i data-lucide="download" class="w-4 h-4"></i> Indítás
-                </a>
+    <!-- NAVIGÁCIÓ -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-eco-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer transform hover:scale-110 transition-transform" onclick="navigateTo('home')">
+                    <img src="logo.png" alt="MIsszió Ökoszisztéma Logo" class="h-12 w-auto">
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-1">
+                    <button onclick="navigateTo('home')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-eco-600 bg-eco-50" id="nav-home">Főoldal</button>
+                    <button onclick="navigateTo('methods')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-eco-600 hover:bg-slate-50" id="nav-methods">Módszerek & Idővonal</button>
+                    <button onclick="navigateTo('examples')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-eco-600 hover:bg-slate-50" id="nav-examples">Mintaprojektek</button>
+                    <button onclick="navigateTo('templates')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-eco-600 hover:bg-slate-50" id="nav-templates">Sablonok & Letöltések</button>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <button onclick="navigateTo('templates')" class="bg-eco-600 hover:bg-eco-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-all shadow-md shadow-eco-100 transform hover:-translate-y-0.5">
+                        Sablonok letöltése (0 Ft)
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
             </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-eco-100 bg-white px-4 pt-2 pb-4 space-y-1">
+            <button onclick="navigateTo('home'); toggleMobileMenu();" class="block w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-eco-600 bg-eco-50">Főoldal</button>
+            <button onclick="navigateTo('methods'); toggleMobileMenu();" class="block w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50">Módszerek & Idővonal</button>
+            <button onclick="navigateTo('examples'); toggleMobileMenu();" class="block w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50">Mintaprojektek</button>
+            <button onclick="navigateTo('templates'); toggleMobileMenu();" class="block w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50">Sablonok & Letöltések</button>
         </div>
     </header>
 
-    <!-- Fő tartalom -->
+    <!-- FŐ TARTALOMTERÜLET -->
     <main class="flex-grow">
 
-        <!-- HERO SZEKCIÓ -->
-        <section class="relative py-12 md:py-16 px-4 sm:px-8 max-w-7xl mx-auto overflow-hidden">
-            <!-- Háttér dekorok -->
-            <div class="absolute top-10 left-10 w-72 h-72 bg-brand-accent/5 rounded-full blur-3xl -z-10"></div>
-            <div class="absolute bottom-10 right-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl -z-10"></div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <!-- Bal oldal: Főcím, Gombok -->
-                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-100 rounded-full text-xs font-semibold text-brand-accent shadow-sm mx-auto lg:mx-0">
-                        <i data-lucide="zap" class="w-3.5 h-3.5 animate-bounce"></i> ZÖLD PEDAGÓGIAI PILOT
-                    </div>
-
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none text-brand-text">
-                        A jövő nem vár rád.<br>
-                        <span class="bg-gradient-to-r from-brand-accent via-emerald-500 to-teal-600 bg-clip-text text-transparent">
-                            Te alakítod.
-                        </span>
+        <!-- ================= 1. OLDAL: FŐOLDAL ================= -->
+        <section id="page-home" class="page-content block">
+            <!-- Hero Szekció - Integrálva a H.I.M.A.S. koncepció -->
+            <div class="relative custom-gradient overflow-hidden py-16 lg:py-24 border-b border-eco-50">
+                <div class="absolute inset-0 hero-pattern"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-eco-100 text-eco-800 mb-6 uppercase tracking-widest shadow-sm">
+                        🌿 A jövő hibrid tanulási ökoszisztémája
+                    </span>
+                    
+                    <h1 class="font-title font-black text-4xl sm:text-5xl lg:text-7xl text-slate-900 tracking-tight leading-none max-w-5xl mx-auto">
+                        A diákok csalnak az MI-vel? <br>
+                        <span class="bg-gradient-to-r from-eco-600 to-emerald-700 bg-clip-text text-transparent">Ne tiltsd be! Tervezd újra a tanulást!</span>
                     </h1>
+                    
+                    <div class="mt-8 text-base sm:text-lg lg:text-xl text-slate-700 leading-relaxed max-w-4xl mx-auto text-justify md:text-center space-y-4 bg-white/80 p-6 sm:p-10 rounded-3xl border border-eco-100 shadow-sm">
+                        <p>
+                            A <strong>„MIsszió Ökoszisztéma”</strong> az oktatás válasza a ChatGPT-krízisre: bemutatjuk a <strong>H.I.M.A.S. (Hibrid, Inkluzív, MI-Asszisztált, Személyre szabott)</strong> keretrendszert. Ez az első olyan hazai tanulásszervezési modell, amely az MI-asszisztenciát állítja az inkluzív osztálytermi munka szolgálatába. Egy forradalmi, 0 Ft-os költségvetésű motor, amely az osztálytermi puskázást golyóálló, jövőbiztos tudássá alakítja át.
+                        </p>
+                    </div>
 
-                    <p class="text-base sm:text-lg text-brand-muted max-w-xl font-normal leading-relaxed">
-                        Felejtsd el a magolást és az unalmas elméleteket! Készülj fel a legmenőbb zöld kihívásra: tervezd meg a holnap fenntartható okosvárosát a saját szabályaid szerint, miközben a legújabb technológia és egy MI mentor támogat a küldetésedben.
+                    <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <button onclick="navigateTo('methods')" class="w-full sm:w-auto bg-eco-600 hover:bg-eco-700 text-white font-bold px-8 py-4 rounded-xl text-base shadow-lg shadow-eco-200 transition-all transform hover:-translate-y-0.5">
+                            Lépj be a MIsszióba! 🚀
+                        </button>
+                        <button onclick="navigateTo('templates')" class="w-full sm:w-auto bg-white hover:bg-slate-100 text-slate-800 border-2 border-slate-200 font-bold px-8 py-4 rounded-xl text-base transition-all">
+                            Sablonok letöltése (0 Ft)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Probléma és Megoldás (A  Szinergia magyarázata) -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+                <div class="grid md:grid-cols-12 gap-8 items-stretch">
+                    <!-- Bal oldal: A Probléma -->
+                    <div class="md:col-span-5 bg-eco-950 text-white p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"></div>
+                        <div class="space-y-4">
+                            <span class="text-xs font-bold text-eco-300 uppercase tracking-widest block">A valóság</span>
+                            <h3 class="font-title font-extrabold text-2xl leading-tight">A krízis, amellyel minden pedagógus szembesül:</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed italic border-l-2 border-eco-500 pl-4">
+                                "A diákok másodpercek alatt íratják meg a házijukat a ChatGPT-vel. A hagyományos száraz tananyag és a frontális órák már nem érik el az ingerküszöbüket."
+                            </p>
+                        </div>
+                        <div class="mt-8 pt-4 border-t border-white/10 text-xs text-eco-200 font-medium">
+                            Ha betiltod az MI-t, csak a falakat növeled. Mi lenne, ha a legkreatívabb tanulótársukká formálnád?
+                        </div>
+                    </div>
+
+                    <!-- Jobb oldal: A Megoldás -->
+                    <div class="md:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-slate-100 shadow-sm flex flex-col justify-center space-y-6">
+                        <span class="text-xs font-bold text-eco-600 uppercase tracking-widest block">A mi válaszunk</span>
+                        <h3 class="font-title font-black text-2xl sm:text-3xl text-slate-900 leading-tight">A H.I.M.A.S. tanulásszervezési motor</h3>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed text-justify">
+                            A MIsszió Ökoszisztéma nem egy újabb unalmas digitális tananyag. Ez egy <strong>tanulásszervezési motor</strong>. Azért hoztuk létre, hogy a diákokat passzív hallgatókból önálló, kritikus gondolkodású problémamegoldókká formáljuk a H.I.M.A.S. szinergia segítségével.
+                        </p>
+                        <p class="text-slate-600 text-sm leading-relaxed text-justify">
+                            A rendszer zsenialitása a <strong>hibrid fúzió</strong>: az egyéni, aszinkron digitális küldetéseket (HyperDoc) ötvözi a csúcsszintű, inkluzív csapatmunkával (DFHT). Nincs többé lusta másolás. A folyamatba épített, Szokratészi MI Tutor nem megírja a leckét, hanem kőkemény kérdésekkel érvelésre, forráskritikára és folyamatos önálló gondolkodásra kényszeríti a tanulót.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A 4 Pillér Szekció (H.I.M.A.S. akronim vizuális bemutatása) -->
+            <div class="bg-slate-100/50 py-16 sm:py-24 border-t border-b border-slate-200/50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <span class="text-xs font-bold text-eco-600 uppercase tracking-widest">Hogyan áll össze a rendszer?</span>
+                        <h2 class="font-title font-black text-3xl text-slate-900 mt-2">A H.I.M.A.S. szinergia 4 pillére</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Pillér 1: Hibrid -->
+                        <div class="card-hover bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition border-t-4 border-t-eco-600 overflow-hidden relative">
+                            <span class="text-7xl font-black text-slate-50 absolute -top-4 -right-2 opacity-50 font-serif select-none pointer-events-none">H</span>
+                            <span class="text-3xl block mb-4 relative z-10">🌐</span>
+                            <h3 class="font-title font-bold text-base text-slate-900 mb-2 relative z-10"><span class="text-eco-600 text-lg">H</span>ibrid Modell</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed relative z-10">
+                                A kutatómunka és az MI-vel való beszélgetés otthonról, aszinkron módon történik, így az iskolai óra kizárólag a kreatív csapatmunkáé és a vitáé.
+                            </p>
+                        </div>
+                        <!-- Pillér 2: Inkluzív -->
+                        <div class="card-hover bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition border-t-4 border-t-eco-500 overflow-hidden relative">
+                            <span class="text-7xl font-black text-slate-50 absolute -top-4 -right-2 opacity-50 font-serif select-none pointer-events-none">I</span>
+                            <span class="text-3xl block mb-4 relative z-10">👥</span>
+                            <h3 class="font-title font-bold text-base text-slate-900 mb-2 relative z-10"><span class="text-eco-600 text-lg">I</span>nkluzív Csoportmunka</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed relative z-10">
+                                Szerepalapú kooperáció (DFHT), amely bevonja a hátrányosabb képességű vagy csendes diákokat is, garantálva a potyautas-mentes, egyenrangú munkát.
+                            </p>
+                        </div>
+                        <!-- Pillér 3: MI-Asszisztált -->
+                        <div class="card-hover bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition border-t-4 border-t-eco-400 overflow-hidden relative">
+                            <span class="text-7xl font-black text-slate-50 absolute -top-4 -right-2 opacity-50 font-serif tracking-tighter select-none pointer-events-none">MA</span>
+                            <span class="text-3xl block mb-4 relative z-10">🤖</span>
+                            <h3 class="font-title font-bold text-base text-slate-900 mb-2 relative z-10"><span class="text-eco-600 text-lg">M.A.</span> (MI-Asszisztált)</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed relative z-10">
+                                Az MI nálunk nem dolgozik a diák helyett. Egy egyedi rendszerpromptnak köszönhetően Szokratészi Tutor-ként kérdésekkel vezeti rá a helyes válaszokra.
+                            </p>
+                        </div>
+                        <!-- Pillér 4: Személyre Szabott -->
+                        <div class="card-hover bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition border-t-4 border-t-eco-300 overflow-hidden relative">
+                            <span class="text-7xl font-black text-slate-50 absolute -top-4 -right-2 opacity-50 font-serif select-none pointer-events-none">S</span>
+                            <span class="text-3xl block mb-4 relative z-10">📄</span>
+                            <h3 class="font-title font-bold text-base text-slate-900 mb-2 relative z-10"><span class="text-eco-600 text-lg">S</span>zemélyre Szabott</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed relative z-10">
+                                HyperDoc digitális küldetésfüzet, amelyen a diákok aszinkron módon, a saját tempójukban, az egyéni érdeklődésük mentén haladnak végig.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skálázhatóság & Tempus pilot -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+                    <div class="lg:col-span-6 space-y-6">
+                        <span class="text-xs font-black text-eco-600 uppercase tracking-widest block">Határtalan Skálázhatóság</span>
+                        <h2 class="font-title font-extrabold text-3xl text-slate-900 leading-tight">Az érettségi tételektől az okosvárosokig.</h2>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed text-justify">
+                            A keretrendszer legnagyobb fegyverténye a korlátlan skálázhatóság: az öko-várostervezéstől az érettségi tételek átdolgozásán át bármilyen tantárgyközi kihívásra azonnal ráilleszthető. Ingyenes, másolásbiztos, méltányos és végtelenül kreatív.
+                        </p>
+                        <p class="text-slate-650 text-sm leading-relaxed text-justify border-l-4 border-eco-500 pl-4 py-1">
+                            Az univerzális modell és a prompt-arzenál erejét a <strong>Tempus-díjas „MIsszió: Green City”</strong> mintaprojektünk élesben, hibrid környezetben bizonyította: a diákok lenyűgöző okosvárosokat terveztek meg elszámoltatható, szakértői szerepekben.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-6 mt-10 lg:mt-0 grid sm:grid-cols-2 gap-4">
+                        <div class="card-hover bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-eco-300 transition">
+                            <span class="text-lg block mb-1">📐 Érettségi tételek</span>
+                            <p class="text-xs text-slate-500">Különböző elméletek, tantárgyi tételek mély, játékos feldolgozása az MI-vel.</p>
+                        </div>
+                        <div class="card-hover bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-eco-300 transition">
+                            <span class="text-lg block mb-1">🌿 Zöld okosváros</span>
+                            <p class="text-xs text-slate-500">A Tempus-díjas modell alapján környezetvédelmi projektek modellezése.</p>
+                        </div>
+                        <div class="card-hover bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-eco-300 transition">
+                            <span class="text-lg block mb-1">💻 Digitális kultúra</span>
+                            <p class="text-xs text-slate-500">Az MI etikus, kritikus, forráskutató alkalmazásának fejlesztése a mindennapokban.</p>
+                        </div>
+                        <div class="card-hover bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-eco-300 transition">
+                            <span class="text-lg block mb-1">📢 Nyelvek & Humán</span>
+                            <p class="text-xs text-slate-500">Kommunikációs pitch feladatok, szöveges elemzések, történelmi viták.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= 2. OLDAL: MÓDSZEREK RÉSZLETESEN & IDŐVONAL ================= -->
+        <section id="page-methods" class="page-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sm font-bold text-eco-600 uppercase tracking-wider block mb-2">H.I.M.A.S. Pedagógiai Architektúra</span>
+                <h2 class="font-title font-extrabold text-3xl text-slate-900">A Módszertan Részletesen</h2>
+                <p class="text-slate-500 text-sm mt-2">A -keretrendszer az első olyan hazai hibrid tanulásszervezési modell, amely az MI-asszisztenciát állítja az inkluzív osztálytermi munka szolgálatába.</p>
+            </div>
+
+            <!-- I. HYPERDOC ÉS AZ 5E MODELL -->
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-100 shadow-sm mb-12 space-y-8 animate-fadeIn">
+                <div>
+                    <span class="text-xs font-bold text-eco-600 uppercase tracking-wider block mb-1">A "S" (Személyre szabott) pillér</span>
+                    <h3 class="font-title font-bold text-2xl text-slate-900">A HyperDoc és az 5E Tanulási Modell</h3>
+                    <p class="text-slate-650 text-xs sm:text-sm mt-2 leading-relaxed text-justify">
+                        Az 5E tanulási modell egy kutatásalapú (inquiry-based) tanulási ciklus, melynek elméleti hátterét a konstruktivista tanuláselmélet adja: eszerint a diákok nem üres lapok, amelyekre a tanár felírja a tudást, hanem a meglévő tapasztalataikra építve, aktív cselekvés során építik fel saját megértésüket.
                     </p>
+                </div>
 
-                    <!-- Kiemelt Inspirációs Slogan Kártya -->
-                    <div id="slogan-box" class="p-5 bg-gradient-to-r from-emerald-50 to-teal-50/50 border-l-4 border-brand-accent rounded-r-2xl max-w-2xl shadow-sm text-left mx-auto lg:mx-0">
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="quote" class="w-8 h-8 text-brand-accent/40 flex-shrink-0"></i>
-                            <p class="text-brand-text font-bold text-base sm:text-lg italic leading-relaxed">
-                                Lépj ki a tankönyvekből, tervezz valós megoldásokat, és használd a mesterséges intelligenciát társként!
+                <!-- 5E Lépések Grid -->
+                <div class="grid sm:grid-cols-5 gap-4">
+                    <div class="card-hover p-4 bg-eco-50/40 border border-eco-100 rounded-xl relative">
+                        <span class="text-xl font-bold text-eco-300 absolute right-3 top-2">1</span>
+                        <strong class="text-slate-900 text-xs sm:text-sm block mb-1 font-title">ENGAGE (Bevonás)</strong>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 leading-relaxed">
+                            <strong>A "Horog".</strong> Felkeltjük a tanulók érdeklődését és aktiváljuk előzetes tudásukat. A tanár kérdez, kíváncsiságot ébreszt, de nem ad válaszokat.
+                        </p>
+                    </div>
+                    <div class="card-hover p-4 bg-eco-50/40 border border-eco-100 rounded-xl relative">
+                        <span class="text-xl font-bold text-eco-300 absolute right-3 top-2">2</span>
+                        <strong class="text-slate-900 text-xs sm:text-sm block mb-1 font-title">EXPLORE (Felfedezés)</strong>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 leading-relaxed">
+                            <strong>Aktív kutatás.</strong> Diákok önállóan kutatnak a megadott digitális forrásokból, adatot gyűjtenek anélkül, hogy a tanár előre elmagyarázná az összefüggéseket.
+                        </p>
+                    </div>
+                    <div class="card-hover p-4 bg-eco-50/40 border border-eco-100 rounded-xl relative">
+                        <span class="text-xl font-bold text-eco-300 absolute right-3 top-2">3</span>
+                        <strong class="text-slate-900 text-xs sm:text-sm block mb-1 font-title">EXPLAIN (Magyarázat)</strong>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 leading-relaxed">
+                            <strong>Fogalomalkotás.</strong> Diákok saját szavaikkal definiálják elméleteiket, majd belép a Sokratészi MI-Tutor a pontos definíciókkal és visszakérdezésekkel.
+                        </p>
+                    </div>
+                    <div class="card-hover p-4 bg-eco-50/40 border border-eco-100 rounded-xl relative">
+                        <span class="text-xl font-bold text-eco-300 absolute right-3 top-2">4</span>
+                        <strong class="text-slate-900 text-xs sm:text-sm block mb-1 font-title">ELABORATE (Alkalmazás)</strong>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 leading-relaxed">
+                            <strong>Mélyítés.</strong> A megszerzett tudás új, komplexebb szituációban való használata. Az MI-Tutor (mint szigorú zsűritag) stressz-teszteli a tanulók terveit.
+                        </p>
+                    </div>
+                    <div class="card-hover p-4 bg-eco-50/40 border border-eco-100 rounded-xl relative">
+                        <span class="text-xl font-bold text-eco-300 absolute right-3 top-2">5</span>
+                        <strong class="text-slate-900 text-xs sm:text-sm block mb-1 font-title">EVALUATE (Értékelés)</strong>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 leading-relaxed">
+                            <strong>Reflexió.</strong> Önreflexió és peer-evaluation segítségével a diákok értékelik saját tanulási folyamatukat és társaik munkáját.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Miért működik zseniálisan az MI-vel? -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 grid md:grid-cols-3 gap-6 text-xs text-slate-600">
+                    <div>
+                        <strong class="text-slate-900 block mb-1">⏱️ Aktív diák, mentoráló tanár</strong>
+                        <span>A tanár ideje 80%-át a frontális előadások helyett a diákok személyes támogatására tudja fordítani, mert az MI-Tutor vezeti a magyarázat (Explain) szakaszt.</span>
+                    </div>
+                    <div>
+                        <strong class="text-slate-900 block mb-1">🎯 Személyre szabott differenciálás</strong>
+                        <span>Amíg a gyorsabb csapatok az MI-Tutorral önállóan haladnak a Felfedezésben, a tanárnak van ideje a lassabban haladó diákok egyéni támogatására.</span>
+                    </div>
+                    <div>
+                        <strong class="text-slate-900 block mb-1">🧠 Kritikus gondolkodás fejlesztése</strong>
+                        <span>Az Alkalmazás (Elaborate) fázisban az MI-Tutor nem hagyja jóvá a diák első munkáját, hanem vitára, érvelésre és az adatok ellenőrzésére kényszeríti őket.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- II. BŐVÍTETT: DFHT MÉLYFÚRÁS (Inkluzivitás és Mozaik működése) -->
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-100 shadow-sm mb-12 space-y-8 animate-fadeIn font-sans">
+                <div>
+                    <span class="text-xs font-bold text-eco-600 uppercase tracking-wider block mb-1">Az "I" (Inkluzív) pillér</span>
+                    <h3 class="font-title font-bold text-2xl text-slate-900">DFHT — A Csoportos Inkluzivitás és a Potyautasok Felszámolása</h3>
+                    <p class="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed text-justify">
+                        A csoportmunka legnagyobb rákfenéje, hogy a domináns vagy jobb képességű tanuló elvégzi az összes feladatot, a többiek pedig „potyautasként” meglapulnak. A <strong>DFHT</strong> (Differenciált Fejlesztés Heterogén Tanulócsoportokban) ezt a problémát két szinten: a <strong>pontos elszámoltathatóság</strong> és a <strong>státuszkezelés pszichológiája</strong> útján oldja fel.
+                    </p>
+                </div>
+
+                <!-- Szerepek interaktív bemutatója -->
+                <div class="grid md:grid-cols-5 gap-4 font-sans">
+                    <div onclick="selectDfhtRole(1)" id="role-card-1" class="card-hover role-card p-4 rounded-2xl border-2 border-eco-600 bg-eco-50/20 text-center cursor-pointer transition">
+                        <span class="text-2xl block mb-1">📐</span>
+                        <strong class="text-xs text-slate-900 block font-title">Várostervező Mérnök</strong>
+                    </div>
+                    <div onclick="selectDfhtRole(2)" id="role-card-2" class="card-hover role-card p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 text-center cursor-pointer transition">
+                        <span class="text-2xl block mb-1">🌿</span>
+                        <strong class="text-xs text-slate-900 block font-title">Környezeti Szakértő</strong>
+                    </div>
+                    <div onclick="selectDfhtRole(3)" id="role-card-3" class="card-hover role-card p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 text-center cursor-pointer transition">
+                        <span class="text-2xl block mb-1">💻</span>
+                        <strong class="text-xs text-slate-900 block font-title">Digitális Technológus</strong>
+                    </div>
+                    <div onclick="selectDfhtRole(4)" id="role-card-4" class="card-hover role-card p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 text-center cursor-pointer transition">
+                        <span class="text-2xl block mb-1">📢</span>
+                        <strong class="text-xs text-slate-900 block font-title">Kommunikációs Vezető</strong>
+                    </div>
+                    <div onclick="selectDfhtRole(5)" id="role-card-5" class="card-hover role-card p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-slate-100/50 text-center cursor-pointer transition">
+                        <span class="text-2xl block mb-1">🤝</span>
+                        <strong class="text-xs text-slate-900 block font-title">Közösségi Vezető</strong>
+                    </div>
+                </div>
+
+                <!-- Szerep részletek (dinamikusan változik) -->
+                <div id="role-details-box" class="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4">
+                    <h4 class="font-title font-bold text-lg text-slate-900" id="role-title">Várostervező Mérnök</h4>
+                    <p class="text-xs sm:text-sm text-slate-600" id="role-desc">A fizikai infrastruktúra, építészeti elrendezések és zöldövezetek kialakításának szakértője a projektben.</p>
+                    <div class="text-xs space-y-2">
+                        <strong class="text-slate-900 block">Ki, mikor mit csinál ebben a szerepben?</strong>
+                        <ul class="list-disc list-inside space-y-1 text-slate-500" id="role-tasks">
+                            <li><strong>1. Fázis (Egyéni):</strong> Az egyéni mérnöki HyperDoc feladatok önálló kutatása a kutatási fázisban otthon, az MI-Tutorral.</li>
+                            <li><strong>2. Fázis (Mozaik):</strong> Szakértői egyeztetés a többi csapat Várostervező Mérnökével a közös asztalnál a kutatások validálására.</li>
+                            <li><strong>3. Fázis (Alapcsapat):</strong> Visszatérve a csoportjához, ő irányítja a fizikai vagy digitális makett/terv mérnöki részleteinek összeállítását.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- DFHT Mélyebb Pedagógiai Háttér -->
+                <div class="grid md:grid-cols-2 gap-8 pt-6 border-t border-slate-100 text-xs sm:text-sm text-slate-600">
+                    <div class="space-y-3">
+                        <h4 class="font-title font-bold text-slate-900 text-sm">Hogyan számoljuk fel a potyautasokat?</h4>
+                        <p class="leading-relaxed text-xs text-justify">
+                            A rendszerben minden egyes tanulónak van egy egyedi, elszámoltatható <strong>szakértői szerepköre</strong>. A közös csoportos produktumot (pl. a zöld városmodellt) nem lehet összeállítani úgy, hogy a mérnök, a környezetvédő, a technológus vagy a kommunikátor hiányozna a láncból. Továbbá az értékelési mátrix két szinten mér: a tanuló egyéni munkája (HyperDoc haladás, MI-Tutorral való beszélgetés naplója) adja az osztályzat 60%-át, míg a közös csapatproduktum a 40%-át. Senki nem húzódhat meg a háttérben.
+                        </p>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="font-title font-bold text-slate-900 text-sm">A Státuszkezelés és Inkluzivitás pszichológiája</h4>
+                        <p class="leading-relaxed text-xs text-justify">
+                            A szociálisan hátrányosabb helyzetű, szorongó vagy lassabban haladó tanuló is megkapja a saját szakértői szerepét. A <strong>Szakértői Mozaikasztal</strong> fázisban a különböző csapatok azonos szakértői (pl. az összes Környezetvédő diák) összeülnek egyetlen asztalhoz. A tanár mentorálásával és egymást támogatva beszélik át az adatokat. Amikor a tanuló visszatér a saját alapcsapatához, már magabiztos, megerősített tudású „szakértőként” lép fel. Ez radikálisan növeli a belső motivációt, és rendezi a csapattagok közötti státuszkülönbségeket.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- III. IDŐVONAL INTEGRÁCIÓ (3 Órás Hibrid Tanmenet) -->
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-100 shadow-sm animate-fadeIn">
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="text-xs font-bold text-eco-600 uppercase tracking-wider block">A "H" (Hibrid) pillér megvalósulása</span>
+                    <h3 class="font-title font-bold text-2xl text-slate-900 mt-1">A 3 Jelenléti Órás Hibrid Tanmenet Idővonala</h3>
+                    <p class="text-slate-500 text-xs mt-1">Lásd egyértelműen, ki, mikor és mit csinál a folyamat során.</p>
+                </div>
+
+                <div class="space-y-6 max-w-4xl mx-auto text-xs">
+                    <!-- 1. lépés -->
+                    <div class="card-hover bg-slate-50 border border-slate-100 p-5 rounded-2xl flex flex-col md:flex-row gap-4 items-start">
+                        <div class="bg-eco-100 text-eco-800 font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">
+                            1. ÓRA (Jelenléti)
+                        </div>
+                        <div class="space-y-1">
+                            <strong class="text-slate-900 font-title text-sm block">Indítás, Csapatok & Szerepválasztás</strong>
+                            <p class="text-slate-500 leading-relaxed">
+                                <strong>Tanár feladata:</strong> Felvezeti a gamifikált kerettörténetet, bemutatja a fő kihívást, és koordinálja a heterogén csoportok kialakulását. <br>
+                                <strong>Diák feladata:</strong> Kiválasztja a szakértői szerepét, rögzíti az egyéni céljait, és megérti a csapaton belüli elszámolási feladatait.
                             </p>
                         </div>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-2">
-                        <a href="#green-city" class="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-emerald-600 text-white font-bold rounded-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 glow-green text-base">
-                            <i data-lucide="compass" class="w-5 h-5"></i> Fedezd fel a Küldetést!
+                    <!-- Otthoni lépés -->
+                    <div class="card-hover bg-eco-50/20 border border-eco-100 p-5 rounded-2xl flex flex-col md:flex-row gap-4 items-start">
+                        <div class="bg-eco-600 text-white font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">
+                            OTTHONI (Aszinkron)
+                        </div>
+                        <div class="space-y-1">
+                            <strong class="text-slate-900 font-title text-sm block text-eco-900 font-bold">Egyéni Kutatás & MI-Tutorálás (1-2 sor otthoni munka)</strong>
+                            <p class="text-slate-650 leading-relaxed">
+                                <strong>Tanár feladata:</strong> Figyelemmel kíséri az online megosztott HyperDoc-ok és chatbot beszélgetések alakulását, digitális támogatást nyújt az elakadásoknál. <br>
+                                <strong>Diák feladata:</strong> Önállóan dolgozza fel a szerepére szabott HyperDoc-ot. A Sokratészi MI-Tutorral cseveg, megvitatja a kérdéseit, és elvégzi az adatok validálását.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 2. lépés -->
+                    <div class="card-hover bg-slate-50 border border-slate-100 p-5 rounded-2xl flex flex-col md:flex-row gap-4 items-start">
+                        <div class="bg-eco-100 text-eco-800 font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">
+                            2. ÓRA (Jelenléti)
+                        </div>
+                        <div class="space-y-1">
+                            <strong class="text-slate-900 font-title text-sm block">Szakértői Mozaik & Alkotás elindítása (3-4 sor a tantervben)</strong>
+                            <p class="text-slate-500 leading-relaxed">
+                                <strong>Tanár feladata:</strong> Moderálja a szakértő asztalok munkáját (Mozaik), majd segíti a csoportokban elinduló közös alkotást. <br>
+                                <strong>Diák feladata:</strong> A Mozaikasztalnál egyezteti a kutatást a többi csapat azonos szerepkörű tagjával, majd visszaülve az alapcsoportjához megkezdi a közös produktum felépítését az MI-arzenállal.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 3. lépés -->
+                    <div class="card-hover bg-slate-50 border border-slate-100 p-5 rounded-2xl flex flex-col md:flex-row gap-4 items-start">
+                        <div class="bg-eco-100 text-eco-800 font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">
+                            3. ÓRA (Jelenléti)
+                        </div>
+                        <div class="space-y-1">
+                            <strong class="text-slate-900 font-title text-sm block">Védelem, Prezentáció & Reflexió (Utolsó óra)</strong>
+                            <p class="text-slate-500 leading-relaxed">
+                                <strong>Tanár feladata:</strong> Formális kétszintű értékelést ad a rubrika alapján (60% egyéni, 40% csoport), badge-eket oszt ki a tanulóknak. <br>
+                                <strong>Diák feladata:</strong> Pitch formában prezentálja és megvédi a munkát a többi csapat előtt, elvégzi a csapattársi és önreflexiós értékelést.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= 3. OLDAL: MINTAPROJEKTEK ================= -->
+        <section id="page-examples" class="page-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sm font-bold text-eco-600 uppercase tracking-wider block mb-2">Gyakorlati alkalmazás</span>
+                <h2 class="font-title font-extrabold text-3xl text-slate-900">Működő Mintaprojektek</h2>
+                <p class="text-slate-500 text-sm mt-2">Próbáld ki az élesben bizonyított, azonnal használható mintákat.</p>
+            </div>
+
+            <!-- Két Mintaprojekt -->
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <!-- Green City -->
+                <div class="card-hover bg-white rounded-3xl border border-slate-100 shadow-md p-6 sm:p-8 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <span class="inline-block bg-eco-100 text-eco-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Mintaprojekt #1</span>
+                        <h3 class="font-title font-bold text-2xl text-slate-950">Green City — Zöld Okosváros Tervezés</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            A diákoknak egy fiktív jövőbeli környezetbarát okosvárost kell megtervezniük. A mérnök az infrastruktúrát, a környezetvédő a biodiverzitást, a technológus pedig az okos szenzorokat tervezi meg.
+                        </p>
+                       <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center justify-between">
+                        <span>📦 Használatra kész diák anyagok:</span>
+
+                        <a href="https://drive.google.com/drive/folders/11GU5eeoDr5ou2T-gV5K7W7w-20Y4VdSJ?usp=drive_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-eco-600 font-bold hover:underline">
+                            Anyagok megnyitása →
                         </a>
-                        <!-- Éles átirányítás a Streamlit MI Tutorra -->
-                        <a href="https://greencity-mitutor.streamlit.app/" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-white border border-slate-200 hover:border-brand-accent text-brand-text font-bold rounded-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 text-base shadow-sm">
-                            <i data-lucide="external-link" class="w-5 h-5 text-brand-accent"></i> MI Tutor Megnyitása
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Jobb oldal: JÖVŐ VÁROSA + AI INTEGRÁLT ILLUSZTRÁCIÓ -->
-                <div class="lg:col-span-5 flex justify-center">
-                    <div class="relative w-full max-w-md aspect-square rounded-3xl bg-[#ffffff]  p-1.5 border  shadow-4xl flex items-center justify-center group overflow-hidden">
-                           
-                        <!-- Körkörös animált hálózati dekoráció a háttérben -->
-                        <div class="absolute inset-4 border border-dashed border-emerald-500/20 rounded-full animate-spin-slow"></div>
-                        <div class="absolute inset-16 border border-emerald-500/10 rounded-full animate-reverse-spin"></div>
-
-                        <!-- A megadott city.jpg éles beágyazása modern átmenettel és prémium Unsplash zöldváros-tartalékkal -->
-                        <img src="city2.png" alt="Green City Pilot Koncepció" class="w-full h-full object-cover rounded-2xl relative z-10 transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=600&q=80';">
-
-                        <!-- Kis lebegő widgetek a képen -->
-                        <div class="absolute top-6 left-6 p-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-slate-200 flex items-center gap-1.5 text-xs font-bold text-brand-text z-20">
-                            <i data-lucide="leaf" class="w-4 h-4 text-brand-accent"></i>
-                            <span>ECO VIBES</span>
-                        </div>
-                        <div class="absolute bottom-6 right-6 p-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-slate-200 flex items-center gap-1.5 text-xs font-bold text-brand-accent z-20">
-                            <i data-lucide="cpu" class="w-4 h-4 text-brand-accent"></i>
-                            <span>AI INTEGRATION</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- KÜLDETÉS: GREEN CITY SZEKCIÓ -->
-        <section id="green-city" class="py-16 px-4 sm:px-8 bg-white border-y border-slate-200">
-            <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
-                    <!-- Bal oldal: Szöveges bemutatás -->
-                    <div class="lg:col-span-7 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-accent/10 border border-brand-accent/20 rounded-md text-xs font-bold text-brand-accent">
-                            A FŐ KÜLDETÉSED
-                        </div>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
-                            A Nagy Dobás: Építsd fel a saját <span class="bg-gradient-to-r from-brand-accent to-emerald-600 bg-clip-text text-transparent">Green City</span> koncepciódat!
-                        </h2>
-                        
-                        <p class="text-base text-brand-muted leading-relaxed">
-                            Gondolkoztál már azon, miért kell a városainknak szürke betonrengetegnek lenniük? Mi lenne, ha a jövő utcái lélegeznének, az energiát az intelligens hálózatok osztanák el, és a hulladék szót örökre kitörölnénk a szótárból? 
-                        </p>
-                        
-                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
-                            <p class="text-sm font-bold text-brand-text flex items-center gap-2">
-                                <i data-lucide="target" class="text-brand-accent w-5 h-5"></i>
-                                Mi az a Green City alapkoncepció?
-                            </p>
-                            <p class="text-xs text-brand-muted leading-relaxed">
-                                Ez egy olyan modern várostervezési szemlélet, ahol a természetes ökoszisztémák (növények, vizek, biodiverzitás) és a legújabb zöld technológiák (okos hálózatok, megújuló energia, önvezető zöld közlekedés) tökéletes egyensúlyban működnek együtt. A cél az élhetőbb, tisztább és teljesen önfenntartó városi terek létrehozása.
-                            </p>
-                        </div>
-
-                        <p class="text-sm font-medium text-brand-text">
-                            A ti feladatotok: válasszatok szerepet, tervezzétek meg a saját fenntartható okos-városrészeteket, és mutassátok meg, hogyan menti meg a technológia a jövőt!
-                        </p>
                     </div>
 
-                    <!-- Jobb oldal: Miért jó ez neked? -->
-                    <div class="lg:col-span-5 space-y-4">
-                        <div class="bg-emerald-50/50 border border-emerald-100 p-6 rounded-2xl">
-                            <h3 class="font-extrabold text-brand-accent text-lg mb-2 flex items-center gap-2">
-                                <i data-lucide="sparkles" class="w-5 h-5"></i> Légy te a Jövő Tervezője!
-                            </h3>
-                            <p class="text-xs text-brand-muted leading-relaxed">
-                                Nincsenek előre megírt, kötelező válaszok. Ti döntitek el, milyen technológiát építetek be, hogyan oldjátok meg a víztisztítást, a hulladékkezelést vagy a zöld közlekedést. Teljes alkotói szabadság!
-                            </p>
-                        </div>
-
-                        <div class="bg-emerald-100/30 border border-emerald-200 p-6 rounded-2xl">
-                            <h3 class="font-extrabold text-brand-accent text-lg mb-2 flex items-center gap-2">
-                                <i data-lucide="brain" class="w-5 h-5"></i> AI-Támogatás 24/7
-                            </h3>
-                            <p class="text-xs text-brand-muted leading-relaxed">
-                                Nem maradsz magadra a nehéz kérdésekkel. A te személyes mentorod egy külső, felhő alapú biztonságos felületen vár rád, aki segít ötletelni, ellenőrzi a logikádat, vagy megmondja, min érdemes még finomítanod!
-                            </p>
-                        </div>
                     </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- KÜLDETÉSVEZÉRLŐ & 4 SZEREP KÜLÖN HYPERDOC-JA -->
-        <section id="hyperdoc-select" class="py-16 px-4 sm:px-8 max-w-7xl mx-auto">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 border border-emerald-200 rounded-md text-xs font-semibold text-brand-accent mb-4">
-                    1. LÉPÉS: VÁLASSZ SZEREPET ÉS TÖLTSD LE A TÉRKÉPEDET!
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
-                    Személyre Szabott Küldetésvezérlő HyperDoc-ok
-                </h2>
-                <p class="mt-3 text-brand-muted leading-relaxed">
-                    A siker kulcsa a szoros csapatmunka. Minden csapattagnak saját, névre szóló és szerepspecifikus **HyperDoc-ot** kell használnia. Kattints a saját szerepkörödre az egyéni feladatlapod letöltéséhez és a küldetés megkezdéséhez!
-                </p>
-            </div>
-
-            <!-- SZEREPKÖRI RÁCS -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- 1. KÁRTYA: Várostervező mérnök -->
-                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-brand-accent flex items-center justify-center mb-4 border border-emerald-100">
-                            <i data-lucide="compass" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Várostervező Mérnök</h3>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
-                            Felelsz az utcák, épületek tájolásáért, a fizikai terekért és a kék-zöld infrastruktúra (parkok, zöldtetők, esőkertek) megtervezéséért.
-                        </p>
-                    </div>
-                    <a href="misszio_green_city_hyperdoc_varostervezo.pdf" download="misszio_green_city_hyperdoc_varostervezo.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
-                        <i data-lucide="download" class="w-4 h-4"></i> Mérnök HyperDoc
-                    </a>
-                </div>
-
-                <!-- 2. KÁRTYA: Környezetvédelmi szakértő -->
-                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4 border border-emerald-200">
-                            <i data-lucide="leaf" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Ökológiai Szakértő</h3>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
-                            Tervezd meg a fenntartható vízgazdálkodást, a biodiverzitást (méh- és madárbarát terek), a zöld energiát és a Zero Waste hulladékmenetességet.
-                        </p>
-                    </div>
-                    <a href="misszio_green_city_hyperdoc_kornyezet.pdf" download="misszio_green_city_hyperdoc_kornyezet.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
-                        <i data-lucide="download" class="w-4 h-4"></i> Ökológus HyperDoc
-                    </a>
-                </div>
-
-                <!-- 3. KÁRTYA: Digitális technológus -->
-                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center mb-4 border border-teal-100">
-                            <i data-lucide="cpu" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Digitális Technológus</h3>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
-                            Kiépíted a Smart City idegrendszerét: az IoT szenzorhálózatot, az intelligens hálózati elosztókat és a zöld AI-irányítási rendszert.
-                        </p>
-                    </div>
-                    <a href="misszio_green_city_hyperdoc_digitalistech.pdf" download="misszio_green_city_hyperdoc_digitalistech.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
-                        <i data-lucide="download" class="w-4 h-4"></i> Technológus HyperDoc
-                    </a>
-                </div>
-
-                <!-- 4. KÁRTYA: Kommunikációs vezető -->
-                <div class="role-card bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-4 border border-emerald-100">
-                            <i data-lucide="megaphone" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-extrabold text-lg text-brand-text mb-2">Kommunikációs Vezető</h3>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
-                            Felelsz a lakók bevonásáért, a gamifikált kampányokért, a "greenwashing" elkerüléséért és a csapat végső bemutatójának látványos tálalásáért.
-                        </p>
-                    </div>
-                    <a href="misszio_green_city_hyperdoc_tarsadalmi.pdf" download="misszio_green_city_hyperdoc_tarsadalmi.pdf" onclick="registerDownloadAttempt(event)" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md text-center">
-                        <i data-lucide="download" class="w-4 h-4"></i> Kommunikációs HyperDoc
-                    </a>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- MI TUTOR EXKLUZÍV PROMO SZEKCIÓ (Már nem beágyazva, hanem biztonságos felhő-hivatkozásként) -->
-        <section id="mitutor-info" class="py-16 px-4 sm:px-8 bg-white border-t border-slate-200">
-            <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
-                    <!-- Bal oldal: Illusztrált AI Mentor Kártya -->
-                    <div class="lg:col-span-5 flex justify-center">
-                        <div class="relative w-full max-w-md bg-gradient-to-br from-slate-50 to-emerald-50/40 border border-slate-200 rounded-3xl p-8 shadow-lg flex flex-col justify-between h-[450px]">
-                            <div class="space-y-6">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
-                                            <i data-lucide="bot" class="w-6 h-6"></i>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-brand-text text-sm">MI Tutor v2.5</h4>
-                                            <div class="flex items-center gap-1.5">
-                                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                                                <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Aktív felhő-mentor</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <span class="px-2.5 py-1 bg-white border border-slate-100 rounded-full text-[10px] font-semibold text-brand-muted shadow-sm">Streamlit App</span>
-                                </div>
-
-                                <div class="space-y-3 pt-2">
-                                    <!-- Minta párbeszéd buborékok -->
-                                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-xs text-brand-text shadow-sm max-w-[90%]">
-                                        <p class="font-bold text-emerald-600 mb-1">MI Tutor</p>
-                                        Szia! 👋 Készen állok arra, hogy zöld várostervezési guruként segítsem a csapatodat! promptolj bátran!
-                                    </div>
-                                    <div class="bg-emerald-50 p-4 rounded-2xl rounded-tr-none border border-emerald-100 text-xs text-brand-text shadow-sm max-w-[90%] ml-auto">
-                                        <p class="font-bold text-brand-accent mb-1 text-right">Te</p>
-                                        Hogyan tudnánk kevesebb beton használatával megoldani a lakótelepi parkolást?
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-brand-muted">
-                                <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Biztonságos kapcsolat</span>
-                                <span class="font-mono text-[10px]">groq-engine</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Jobb oldal: Kedvcsináló, előnyök és Launch gomb -->
-                    <div class="lg:col-span-7 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-md text-xs font-bold text-brand-accent">
-                            2. LÉPÉS: INDÍTSD EL AZ AI TÁRSADAT!
-                        </div>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
-                            Találkozz a felhőben élő <span class="bg-gradient-to-r from-brand-accent to-emerald-600 bg-clip-text text-transparent">MI Tutoroddal</span>!
-                        </h2>
-                        <p class="text-base text-brand-muted leading-relaxed">
-                            Az MI Tutor nem ezen a weboldalon lakik. Hogy az API kulcsod és a rendszered 100%-ban biztonságos legyen a diákok elől, egy **különálló, professzionális és rendkívül gyors felhőszerveren** (Streamlit & Groq) helyeztük el.
-                        </p>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                            <div class="flex items-start gap-3">
-                                <div class="p-2 bg-emerald-50 rounded-lg text-brand-accent flex-shrink-0"><i data-lucide="lock" class="w-5 h-5"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-brand-text">100% Kulcsbiztonság</h4>
-                                    <p class="text-xs text-brand-muted">A diákok soha nem férhetnek hozzá a fizetős AI-kulcsaidhoz.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <div class="p-2 bg-emerald-50 rounded-lg text-brand-accent flex-shrink-0"><i data-lucide="zap" class="w-5 h-5"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-brand-text">Groq Villámsebesség</h4>
-                                    <p class="text-xs text-brand-muted">A válaszok ezredmásodpercek alatt megérkeznek a diákoknak.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- NAGY LAUNCH GOMB -->
-                        <div class="pt-6">
-                            <a href="https://greencity-mitutor.streamlit.app/" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-brand-accent hover:bg-emerald-600 text-white font-bold rounded-2xl transition-all hover:scale-105 active:scale-95 glow-green w-full sm:w-auto justify-center text-lg shadow-lg">
-                                <i data-lucide="play-circle" class="w-6 h-6 animate-pulse-slow"></i>
-                                <span>Indítsd el a MI Tutort!</span>
+                    <div class="mt-8 pt-4 border-t border-slate-100 space-y-3">
+                        <a href="https://drive.google.com/file/d/1Bfy6KNKBm2bs_E0RM8ya58RLDoE9UyWn/view?usp=drive_link"
+                            download
+                            class="block w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition text-center rounded-xl">
+                                📥 Tanári Kézikönyv letöltése (PDF)
                             </a>
-                            <p class="text-[10px] text-brand-muted mt-2.5 text-center sm:text-left">
-                                Kattintásra a MI Tutor új böngészőlapon nyílik meg. Használd osztott képernyőn a HyperDoc mellett!
+                        <a href="https://drive.google.com/file/d/1sk4gWW-7eXe3hDSRNe1VP8g4JsjS0_d2/view?usp=drive_link"
+                            download
+                            class="block w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition text-center rounded-xl">
+                                📥 Teljes Green City dokumentáció letöltése (PDF)
+                            </a>
+   
+                        <a href="https://ptkriszta.github.io/MIsszio/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="block w-full bg-eco-600 hover:bg-eco-700 text-white font-bold py-3 rounded-xl text-xs transition shadow-sm text-center">
+                            👉 Green City Diák Portál Megnyitása
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Tételgyár -->
+                <div class="card-hover bg-white rounded-3xl border border-slate-100 shadow-md p-6 sm:p-8 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <span class="inline-block bg-eco-100 text-eco-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Mintaprojekt #2</span>
+                        <h3 class="font-title font-bold text-2xl text-slate-950">A Tételgyár — Érettségi Játékosítva</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            A diákok nem magolják a tételeket. Csapatokban "Tételgyárakat" alapítanak, ahol a száraz elméleti tananyagból (pl. matematikai képletekből vagy történelmi érettségi tételekből) interaktív, vizuális és MI-vel tesztelhető tananyagokat gyártanak a társaiknak.
+                        </p>
+                        <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center justify-between">
+                            <span>📦 Használatra kész diák anyagok:</span>
+                            <a href="#" onclick="downloadMockFile('Tetelgyar_kesz_anyagok.zip')" class="text-eco-600 font-bold hover:underline">Anyagok megnyitása →</a>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-slate-100 space-y-3">
+                        <a href="https://drive.google.com/file/d/1kGp2q831QgUYql5NLFJpy_P2OqEGtAXk/view?usp=drive_link"
+                            download
+                            class="block w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition text-center rounded-xl">
+                                📥 Tételgyár Tanári Útmutató letöltése (PDF)
+                        </a>
+                        <button onclick="openStudentSimulator('tetelgyar')" class="w-full bg-eco-600 hover:bg-eco-700 text-white font-bold py-3 rounded-xl text-xs transition shadow-sm">
+                            👉 Tételgyár Diákoldal Megnyitása
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= DIÁKOLDAL SZIMULÁTOR MODAL / NÉZET ================= -->
+            <div id="student-simulator-box" class="hidden bg-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl border border-slate-800 animate-fadeIn space-y-8 relative">
+                <div class="absolute top-4 right-4">
+                    <button onclick="closeStudentSimulator()" class="bg-white/10 hover:bg-white/20 text-white p-2 rounded-xl text-xs">
+                        Bezárás ✕
+                    </button>
+                </div>
+
+                <div class="border-b border-slate-800 pb-4">
+                    <span class="text-xs font-bold text-eco-400 uppercase tracking-wider block mb-1">Diákoldal Élő Szimuláció (Amit a diákjaid látni fognak)</span>
+                    <h3 class="font-title font-black text-2xl" id="sim-main-title">Iskolai Green City Diák Portál</h3>
+                    <p class="text-slate-400 text-xs mt-1">Ezt a linket kell csak megmutatnod a tanulóknak a tanóra elején, és a folyamat magától elindul!</p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8">
+                    <!-- Bal oldal: Diák küldetések -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <h4 class="font-title font-bold text-sm text-white uppercase tracking-wider">Saját szerepspecifikus HyperDoc küldetésed:</h4>
+                        <div class="space-y-2">
+                            <a href="#" onclick="alert('Ez egy szimulált HyperDoc link. A szerkeszthető verziókat a Sablonok oldalon találod!')" class="block bg-slate-800 hover:bg-slate-700 p-4 rounded-xl border border-slate-700 transition flex items-center justify-between">
+                                <span class="text-xs font-semibold">📐 Várostervező Mérnök Küldetésfüzet</span>
+                                <span class="text-[10px] bg-eco-600 text-white px-2 py-0.5 rounded">Megnyitás</span>
+                            </a>
+                            <a href="#" onclick="alert('Ez egy szimulált HyperDoc link. A szerkeszthető verziókat a Sablonok oldalon találod!')" class="block bg-slate-800 hover:bg-slate-700 p-4 rounded-xl border border-slate-700 transition flex items-center justify-between">
+                                <span class="text-xs font-semibold">🌿 Környezeti Szakértő Küldetésfüzet</span>
+                                <span class="text-[10px] bg-eco-600 text-white px-2 py-0.5 rounded">Megnyitás</span>
+                            </a>
+                            <a href="#" onclick="alert('Ez egy szimulált HyperDoc link. A szerkeszthető verziókat a Sablonok oldalon találod!')" class="block bg-slate-800 hover:bg-slate-700 p-4 rounded-xl border border-slate-700 transition flex items-center justify-between">
+                                <span class="text-xs font-semibold">💻 Digitális Technológus Küldetésfüzet</span>
+                                <span class="text-[10px] bg-eco-600 text-white px-2 py-0.5 rounded">Megnyitás</span>
+                            </a>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <strong class="text-xs block text-white">Aktuális Diák Küldetés részletei:</strong>
+                            <p id="sim-mission-desc" class="text-[11px] text-slate-400 leading-relaxed">
+                                A diákok csapatokban egy jövőbeli zöld okosvárost terveznek meg. Az adatok gyűjtéséhez és a koncepciók csiszolásához az MI-Tutor segítségét kérik.
                             </p>
                         </div>
                     </div>
 
+                    <!-- Jobb oldal: ÉLŐ SOKRATÉSZI MI TUTOR SIMULATOR -->
+                    <div class="lg:col-span-6 bg-slate-950 rounded-2xl border border-slate-800 p-4 flex flex-col justify-between min-h-[350px]">
+                        <div>
+                            <div class="flex items-center space-x-2 border-b border-slate-800 pb-3 mb-4">
+                                <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
+                                <span class="text-xs font-bold text-white font-title">Sokratészi MI-Tutor (Aktív)</span>
+                            </div>
+
+                            <!-- Chat log -->
+                            <div id="chat-container" class="space-y-3 max-h-[220px] overflow-y-auto text-xs pr-2">
+                                <div class="bg-slate-800 p-3 rounded-xl max-w-[85%] text-slate-200">
+                                    <span class="block font-bold text-eco-400 mb-1">MI-Tutor 🤖</span>
+                                    Szia! Én vagyok a Szokratészi MI-Tutorod. Kész válaszokat nem fogok adni neked, de rávezető kérdésekkel segítek kitalálni a legkreatívabb megoldást. Melyik projekten dolgozol éppen?
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input field -->
+                        <div class="mt-4 pt-3 border-t border-slate-800 flex gap-2">
+                            <input type="text" id="chat-input" placeholder="Tedd fel a kérdésed (pl. Hogyan működjön az okos csatornarendszer?)..." class="flex-grow bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-eco-600">
+                            <button onclick="sendChatMessage()" class="bg-eco-600 hover:bg-eco-500 text-white font-bold px-4 py-3 rounded-xl text-xs transition">
+                                Küldés
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- PROMPT KISOKOS ÉS ÚTMUTATÓ -->
-        <section id="utmutato" class="py-16 px-4 sm:px-8 max-w-7xl mx-auto">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <h2 class="text-3xl font-extrabold text-brand-text">💡 A Szuper-Promptoló Kisokos</h2>
-                <p class="mt-3 text-brand-muted">
-                    Tanulj meg úgy beszélgetni a mesterséges intelligenciával, mint a profi szoftvermérnökök és zöld szakemberek. Másold le és alakítsd át ezeket a bevált promptokat!
-                </p>
+
+        <!-- ================= 4. OLDAL: LETÖLTHETŐ SABLONOK ================= -->
+        <section id="page-templates" class="page-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sm font-bold text-eco-600 uppercase tracking-wider block mb-2">Univerzális Eszköztár</span>
+                <h2 class="font-title font-extrabold text-3xl text-slate-900">Sablonok & Eszközök Letöltése</h2>
+                <p class="text-slate-500 text-sm mt-2">Bármilyen tantárgyad vagy témád van, töltsd le univerzális anyagainkat, és szabd testre 5 perc alatt!</p>
             </div>
 
-            <!-- SZEREPKÖRI GYORSINDÍTÓ SABLONOK (OKOS KOPÍROZÁS) -->
-            <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm mb-12 max-w-4xl mx-auto space-y-4">
-                <h3 class="font-bold text-base text-brand-text flex items-center gap-2">
-                    <i data-lucide="sparkles" class="text-brand-accent w-5 h-5"></i>
-                    Gyorsindító Sablonok (Másold le, nyisd meg a Tutort és illeszd be!)
-                </h3>
-                <p class="text-xs text-brand-muted">
-                    Kattints az alábbi szerepkör-specifikus sablonok egyikére. A rendszer automatikusan kimásolja a promptot a vágólapodra, neked csak be kell illesztened a megnyíló Streamlit MI Tutorba!
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                    <button onclick="quickPrompt('brainstorm')" class="p-4 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-brand-accent transition-all text-xs text-left flex justify-between items-center group shadow-sm">
-                        <div>
-                            <p class="font-bold text-brand-text group-hover:text-brand-accent">🧠 Zöld kampány ötletbörze</p>
-                            <p class="text-[10px] text-brand-muted mt-0.5">Kommunikációs vezetőknek</p>
-                        </div>
-                        <i data-lucide="copy" class="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors"></i>
-                    </button>
-                    <button onclick="quickPrompt('critic')" class="p-4 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-brand-accent transition-all text-xs text-left flex justify-between items-center group shadow-sm">
-                        <div>
-                            <p class="font-bold text-brand-text group-hover:text-brand-accent">⚖️ Ördög ügyvédje (Stressz-teszt)</p>
-                            <p class="text-[10px] text-brand-muted mt-0.5">Mérnököknek és technológusoknak</p>
-                        </div>
-                        <i data-lucide="copy" class="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors"></i>
-                    </button>
-                    <button onclick="quickPrompt('search')" class="p-4 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-brand-accent transition-all text-xs text-left flex justify-between items-center group shadow-sm">
-                        <div>
-                            <p class="font-bold text-brand-text group-hover:text-brand-accent">📊 Megbízható kutatási források</p>
-                            <p class="text-[10px] text-brand-muted mt-0.5">Környezetvédelmi szakértőknek</p>
-                        </div>
-                        <i data-lucide="copy" class="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors"></i>
-                    </button>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Sablon 1 -->
+                <div class="card-hover bg-white border border-slate-100 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-3xl block mb-4">📄</span>
+                        <h3 class="font-title font-bold text-slate-900 text-lg mb-2">Univerzális HyperDoc Sablon</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Az 5E tanulási modellre épülő üres, előre tervezett Google Docs dokumentum sablon. Csak írd át a kérdéseket a saját tantárgyadra!
+                        </p>
+                    </div>
+                    <a href="https://docs.google.com/document/d/1mdLtVERFY4h1O3fySsfYWgU7gQAPRzhY/edit?usp=sharing&ouid=104596275876313448713&rtpof=true&sd=true"
+                     download 
+                     class="block w-full bg-eco-600 hover:bg-eco-700 text-white font-bold py-2.5 rounded-xl text-xs mt-6 transition text-center">
+                       Szerkeszthető sablon letöltése
+                    </a>
+                </div>
+
+                <!-- Sablon 2 -->
+                <div class="card-hover bg-white border border-slate-100 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-3xl block mb-4">🤖</span>
+                        <h3 class="font-title font-bold text-slate-900 text-lg mb-2">Sokratészi MI-Tutor Prompt</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            A rendszerprompt másolható kódja, amellyel a ChatGPT, Gemini vagy Claude azonnal Szokratészi mentorként kezd működni a tanulóiddal.
+                        </p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/16EUAxVa4ZKUXH6E8VaspAcroJ8K9dAuv/view?usp=sharing"
+                     download 
+                     class="block w-full bg-eco-600 hover:bg-eco-700 text-white font-bold py-2.5 rounded-xl text-xs mt-6 transition text-center">
+                       Prompt letöltése
+                    </a>
+                </div>
+
+                <!-- Sablon 3 -->
+                <div class="card-hover bg-white border border-slate-100 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-3xl block mb-4">👥</span>
+                        <h3 class="font-title font-bold text-slate-900 text-lg mb-2">DFHT Szerepkártyák</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Nyomtatható, színes kártyák a Mérnök, Környezetvédő, Technológus, Kommunikátor és Közösségi vezető szerepekhez, részletes feladatleírásokkal.
+                        </p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/14gjAnHT-noBBfnhVCBNC4V41xfYsHGMy/view?usp=drive_link"
+                     download 
+                     class="block w-full bg-eco-600 hover:bg-eco-700 text-white font-bold py-2.5 rounded-xl text-xs mt-6 transition text-center">
+                       Szerepkártyák letöltése
+                    </a>
+                </div>
+
+                <!-- Sablon 4 -->
+                <div class="card-hover bg-white border border-slate-100 p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-3xl block mb-4">📊</span>
+                        <h3 class="font-title font-bold text-slate-900 text-lg mb-2">Kétszintű Értékelő Mátrix</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Kész Excel kalkulátor táblázat, amely automatikusan számolja az egyéni (60%) és a csoportos (40%) pontokat, majd javasol osztályzatot.
+                        </p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1v-38cCIUa33PEC9yrfAbwEQvOt5oTcmJ/view?usp=sharing"
+                     download 
+                     class="block w-full bg-eco-600 hover:bg-eco-700 text-white font-bold py-2.5 rounded-xl text-xs mt-6 transition text-center">
+                       Sablon letöltése
+                    </a>
                 </div>
             </div>
 
-            <!-- Részletes prompt kártyák -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- Ötletbörze -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="text-2xl">🧠</span>
-                            <h3 class="font-bold text-lg text-brand-accent">Ötletbörze (Brainstorm)</h3>
-                        </div>
-                        <p class="text-xs text-brand-muted mb-4 leading-relaxed">
-                            Új megközelítést keresel a Green City koncepciótokhoz? Próbáld ki ezt:
-                        </p>
-                        <blockquote id="prompt-brainstorm" class="bg-slate-50 p-4 rounded-xl text-xs text-brand-text border border-slate-100 font-mono leading-relaxed select-all">
-                            Egy olyan digitális kampányt tervezek középiskolásoknak, ami a tudatos vízfogyasztásról szól. Adj 5 egyedi, kreatív és meglepő ötletet, amivel felkelthetem a korosztályom figyelmét a közösségi médiában!
-                        </blockquote>
-                    </div>
-                    <button onclick="copyToClipboard('prompt-brainstorm')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 border border-slate-200 text-brand-text transition-colors shadow-sm">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Másolás vágólapra
-                    </button>
-                </div>
-
-                <!-- Ördög Ügyvédje -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="text-2xl">⚖️</span>
-                            <h3 class="font-bold text-lg text-emerald-800">Az Ördög Ügyvédje</h3>
-                        </div>
-                        <p class="text-xs text-brand-muted mb-4 leading-relaxed">
-                            Letesztelnéd a terved sebezhetőségeit a valóságban? Ezt másold be:
-                        </p>
-                        <blockquote id="prompt-critic" class="bg-slate-50 p-4 rounded-xl text-xs text-brand-text border border-slate-100 font-mono leading-relaxed select-all">
-                            A csapatommal azt találtuk ki, hogy egy applikációval gyűjtenénk a diákok szelektív hulladékgyűjtési pontjait. Kérlek, légy kritikus: mondj 3 olyan buktatót vagy nehézséget, amire nem gondoltunk, és javasolj rájuk megoldást!
-                        </blockquote>
-                    </div>
-                    <button onclick="copyToClipboard('prompt-critic')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 border border-slate-200 text-brand-text transition-colors shadow-sm">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Másolás vágólapra
-                    </button>
-                </div>
-
-                <!-- Adatgyűjtés -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="text-2xl">📊</span>
-                            <h3 class="font-bold text-lg text-brand-accent">Kutatás & Adatkeresés</h3>
-                        </div>
-                        <p class="text-xs text-brand-muted mb-4 leading-relaxed">
-                            Nem tudod, hol kezdd el keresni az adatokat a Green City-hez? Segítek:
-                        </p>
-                        <blockquote id="prompt-search" class="bg-slate-50 p-4 rounded-xl text-xs text-brand-text border border-slate-100 font-mono leading-relaxed select-all">
-                            A fenntartható divat témakörét kutatom. Milyen kulcsszavavlakkal vagy milyen típusú adatbázisokban érdemes keresnem, ha megbízható statisztikákat szeretnék találni a textilipar környezeti hatásairól?
-                        </blockquote>
-                    </div>
-                    <button onclick="copyToClipboard('prompt-search')" class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 border border-slate-200 text-brand-text transition-colors shadow-sm">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Másolás vágólapra
-                    </button>
-                </div>
-
+            <!-- Felugró jelzések a letöltésekről -->
+            <div id="download-alert" class="hidden fixed bottom-6 right-6 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-lg border border-slate-850 animate-fadeIn z-50">
+                A fájl letöltése sikeresen elindult! 💾
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-slate-50 border-t border-slate-200 py-12 px-4 sm:px-8">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="flex flex-col items-center md:items-start gap-2">
-                <div class="flex items-center gap-2">
-                    <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-brand-accent to-emerald-600 flex items-center justify-center text-white text-[10px] font-bold shadow-sm">
-                        MI
-                    </div>
-                    <span class="font-extrabold text-sm tracking-wider text-brand-text">MIsszió: Ökoszisztéma</span>
-                </div>
-                <p class="text-xs text-brand-muted text-center md:text-left">
-                    Pedagógiai Újító Módszertani Pilot Projekt &copy; 2026. Minden jog fenntartva.
-                </p>
+    <!-- HÍRLEVÉL / KAPCSOLÓDÁS -->
+    <section class="bg-eco-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-eco-300 font-bold text-sm tracking-wider uppercase block mb-2">Pedagógus Közösség</span>
+            <h2 class="font-title font-bold text-3xl sm:text-4xl mb-6">Csatlakozz te is a hibrid innovációhoz!</h2>
+            <p class="text-eco-100 text-xs sm:text-sm max-w-2xl mx-auto mb-10 leading-relaxed">
+             
+                Bátorítok minden pedagógust a dokumentumok letöltésére, másolására, saját tantárgyi keretekhez igazítására és továbbfejlesztésére. 
+                              Kérlek az elkészült anyagodat küld el nekem, hogy fel tudjam tenni a NOS adatbázisába, hogy más is használhassa. 
+                      <br>   <br>
+                      Tegyük közösen a mesterséges intelligenciát a mély, fenntartható és jövőálló tanulás igazi partnerévé! Írj nekem!
+            </p>
+            <form onsubmit="handleNewsletterSubmit(event)" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+                <input type="email" required placeholder="E-mail címed" class="flex-grow bg-white/10 text-white border border-white/20 rounded-xl px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-eco-500 text-xs">
+                <button type="submit" class="bg-eco-600 hover:bg-eco-500 text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md text-xs whitespace-nowrap">
+                    Csatlakozom! 🚀
+                </button>
+            </form>
+            <div id="newsletter-success" class="hidden max-w-md mx-auto mt-4 bg-emerald-500/20 text-emerald-200 border border-emerald-500/30 p-3 rounded-xl text-xs">
+                Köszönjük! Üdvözlünk a MIsszió Ökoszisztéma közösségében.
             </div>
-            <div class="flex flex-col items-center md:items-end gap-2 text-center md:text-right">
-                <span class="text-xs text-brand-muted font-light italic max-w-sm">
-                    "A fenntarthatóság nem a jövő, hanem a jelen digitális felelőssége."
-                </span>
-                <!-- Tanári / Iskolai info -->
-                <p class="text-[10px] text-brand-muted">
-                    Kérdésed van? Keresd a tanárodat a Google Classroomban vagy az iskolában.
-                </p>
+        </div>
+    </section>
+
+    <!-- LÁBLÉC -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-xs">
+                <!-- Logo & brand -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-8 h-8 bg-eco-600 rounded-lg flex items-center justify-center text-white font-bold text-base">M</div>
+                        <span class="font-title font-bold text-white text-lg tracking-tight">MIsszió Ökoszisztéma</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 leading-relaxed max-w-xs">
+                        Pedagógiai keretrendszer az önálló gondolkodásért, az etikus és hatékony MI használatért a közoktatásban.
+                    </p>
+                </div>
+                <!-- Gyorslinkek -->
+                <div>
+                    <h4 class="font-bold text-white text-[11px] uppercase tracking-wider mb-4">Navigáció</h4>
+                    <ul class="space-y-2">
+                        <li><button onclick="navigateTo('home')" class="hover:text-eco-400 transition">Főoldal</button></li>
+                        <li><button onclick="navigateTo('methods')" class="hover:text-eco-400 transition">Módszerek & Idővonal</button></li>
+                        <li><button onclick="navigateTo('examples')" class="hover:text-eco-400 transition">Mintaprojektek</button></li>
+                    </ul>
+                </div>
+                <!-- Kapcsolat -->
+                <div>
+                    <h4 class="font-bold text-white text-[11px] uppercase tracking-wider mb-4">Kapcsolat</h4>
+                    <p class="text-[11px] text-slate-500 leading-relaxed mb-3">
+                        Kérdésed van vagy megosztanád a saját ötleteidet a sablonok alapján?
+                        <br>
+                        Tegyük közösen a mesterséges intelligenciát a mély, fenntartható és jövőálló tanulás igazi partnerévé!
+Írj nekem!
+                    </p>
+                    <span class="text-eco-400 font-semibold block">tkriszta.inf@gmail.com</span>
+                </div>
+            </div>
+            <div class="border-t border-slate-900 pt-8 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-600">
+                <span>© 2026 MIsszió Ökoszisztéma. Minden jog fenntartva.</span>
+                <span class="mt-2 sm:mt-0">Szeretettel és pedagógiai innovációval fejlesztve.</span>
             </div>
         </div>
     </footer>
 
-    <!-- TOAST ÉRTESÍTÉSEK -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
-
-
-    <!-- JS CLIENT SIDE LOGIKA -->
+    <!-- JAVASCRIPT LOGIKA -->
     <script>
-        // Lucide ikonok betöltése
-        lucide.createIcons();
+        // LAPNAVIGÁCIÓ (Vanilla JS SPA)
+        function navigateTo(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(p => {
+                p.classList.add('hidden');
+                p.classList.remove('block');
+            });
 
-        // Modern görgető motor, amely kiküszöböli a sandboxed horgonylink hibákat
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                
-                // Ha külső Streamlit linkre kattintanak, hagyjuk az alapértelmezett megnyitást futni!
-                if (targetId.startsWith('http')) {
-                    return;
-                }
-                
-                e.preventDefault();
-                
-                if (targetId === '#kezdolap') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    return;
-                }
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            const activePage = document.getElementById(`page-${pageId}`);
+            if (activePage) {
+                activePage.classList.remove('hidden');
+                activePage.classList.add('block');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                if (btn.id === `nav-${pageId}`) {
+                    btn.classList.add('text-eco-600', 'bg-eco-50');
+                    btn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+                } else {
+                    btn.classList.remove('text-eco-600', 'bg-eco-50');
+                    btn.classList.add('text-slate-600', 'hover:text-eco-600', 'hover:bg-slate-50');
                 }
             });
+        }
+
+        // Mobil Menü Váltó
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            toggleMobileMenu();
         });
 
-        // Toast üzenetek
-        function showNotification(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            const colorClass = type === 'success' ? 'border-brand-accent text-brand-accent' : 'border-emerald-700 text-emerald-800 bg-emerald-50';
-            const icon = type === 'success' ? 'check-circle' : 'info';
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
 
-            toast.className = `flex items-center gap-3 bg-white border-l-4 ${colorClass} py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform translate-y-2 opacity-0 text-xs font-semibold max-w-sm border border-slate-200`;
-            toast.innerHTML = `
-                <i data-lucide="${icon}" class="w-4 h-4 flex-shrink-0"></i>
-                <span>${message}</span>
-            `;
-            
-            container.appendChild(toast);
-            lucide.createIcons();
+        // DFHT INTERAKTÍV SZEREP VÁLASZTÓ
+        const dfhtRoles = {
+            1: {
+                title: "📐 Várostervező Mérnök",
+                desc: "A fizikai infrastruktúra, az épületek elrendezésének és a logikai szerkezet felépítésének felelőse.",
+                tasks: [
+                    "1. Fázis (Egyéni): Az egyéni mérnöki HyperDoc feladatok önálló kutatása a kutatási fázisban otthon, az MI-Tutorral.",
+                    "2. Fázis (Mozaik): Szakértői egyeztetés a többi csapat Várostervező Mérnökével a közös asztalnál a kutatások validálására.",
+                    "3. Fázis (Alapcsapat): Visszatérve a csoportjához, ő irányítja a fizikai vagy digitális makett/terv mérnöki részleteinek összeállítását."
+                ]
+            },
+            2: {
+                title: "🌿 Környezeti Szakértő",
+                desc: "A fenntarthatóság, az ökológiai lábnyom mérése, a biodiverzitás és a zöldterületek megőrzésének legfőbb felelőse.",
+                tasks: [
+                    "1. Fázis (Egyéni): Az ökológiai és zöld szempontok önálló kutatása a HyperDoc-ból az MI-Tutor segítségével.",
+                    "2. Fázis (Mozaik): Összehasonlítani és validálni a kutatási eredményeket a többi Környezeti Szakértővel a Mozaikasztalnál.",
+                    "3. Fázis (Alapcsapat): Biztosítani, hogy a közös projekt zöld, fenntartható és környezettudatos elvek szerint épüljön fel."
+                ]
+            },
+            3: {
+                title: "💻 Digitális Technológus",
+                desc: "Az MI-eszközök, a hatékony promptolás, a virtuális térképek és az okos szenzorok technikai mestere.",
+                tasks: [
+                    "1. Fázis (Egyéni): A technológiai és digitális HyperDoc források önálló feldolgozása az aszinkron szakaszban.",
+                    "2. Fázis (Mozaik): A többi csapat technológusaival közösen kalibrálni a promptokat a Mozaik fázisban.",
+                    "3. Fázis (Alapcsapat): Segíteni a csapattagokat a technikai elakadásokban és az MI-eszközök (Canva, Tinkercad stb.) használatában."
+                ]
+            },
+            4: {
+                title: "📢 Kommunikációs Vezető",
+                desc: "Az arculatért, a vizuális dizájnért (Canva infografikák) és a meggyőző prezentáció (Pitch) koordinációjáért felelős tag.",
+                tasks: [
+                    "1. Fázis (Egyéni): A prezentációs technikák és vizuális rendezők kutatása a HyperDoc segítségével.",
+                    "2. Fázis (Mozaik): Egyeztetni a többi Kommunikációs Vezetővel a bemutatók és a meggyőzés (Pitch) legjobb gyakorlatairól.",
+                    "3. Fázis (Alapcsapat): Irányítani a prezentációs anyag összeállítását és koordinálni a 3. órai élő bemutatót."
+                ]
+            },
+            5: {
+                title: "🤝 Közösségi Vezető",
+                desc: "A csapaton belüli harmónia, az időbeosztás betartása, a feladatok követése és a társadalmi hatások felelőse.",
+                tasks: [
+                    "1. Fázis (Egyéni): A társadalmi szükségletek és lakossági igények elemzése a HyperDoc feladatai mentén.",
+                    "2. Fázis (Mozaik): A többi csapat Közösségi Vezetőjével megvitatni a humán fókuszú szempontokat a Mozaikasztalnál.",
+                    "3. Fázis (Alapcsapat): Gondoskodni arról, hogy minden csoporttag szava meghallgatásra kerüljön, és az időkereteket tartsák."
+                ]
+            }
+        };
 
+        function selectDfhtRole(id) {
+            // Összes kártya kijelölésének törlése
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('border-eco-600', 'bg-eco-50/20');
+                card.classList.add('border-slate-100', 'bg-slate-50');
+            });
+
+            // Új kártya kijelölése
+            const activeCard = document.getElementById(`role-card-${id}`);
+            activeCard.classList.remove('border-slate-100', 'bg-slate-50');
+            activeCard.classList.add('border-eco-600', 'bg-eco-50/20');
+
+            // Szöveg frissítése
+            const data = dfhtRoles[id];
+            document.getElementById('role-title').innerText = data.title;
+            document.getElementById('role-desc').innerText = data.desc;
+
+            const list = document.getElementById('role-tasks');
+            list.innerHTML = '';
+            data.tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.innerText = task;
+                list.appendChild(li);
+            });
+        }
+
+        // DIÁKOLDAL SZIMULÁTOR KEZELŐJE
+        const simulatorData = {
+            greencity: {
+                title: "Iskolai Green City Diák Portál",
+                desc: "Egy fiktív jövőbeli zöld okosvárost kell megterveznetek csapatban. Kutasd ki a szerepedhez tartozó HyperDoc anyagokat, majd kérdezd az MI-Tutort az ötleteidről!"
+            },
+            tetelgyar: {
+                title: "Iskolai Tételgyár Diák Portál",
+                desc: "A küldetésed, hogy a száraz tantárgyi definíciókból játékos, vizuális oktatóanyagokat és MI-teszteket készíts a társaidnak a csoportoddal."
+            }
+        };
+
+        function openStudentSimulator(type) {
+            const data = simulatorData[type];
+            document.getElementById('sim-main-title').innerText = data.title;
+            document.getElementById('sim-mission-desc').innerText = data.desc;
+
+            const simBox = document.getElementById('student-simulator-box');
+            simBox.classList.remove('hidden');
+            simBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeStudentSimulator() {
+            document.getElementById('student-simulator-box').classList.add('hidden');
+        }
+
+        // SOKRATÉSZI MI TUTOR CHAT SZIMULÁCIÓ
+        const chatResponses = [
+            "Ez egy elgondolkodtató ötlet! De mit gondolsz, hogyan hatna ez a döntés a helyi növény- és állatvilág egyensúlyára?",
+            "Nagyon izgalmas megközelítés! Mielőtt továbblépnénk, hogyan tudnád ezt az elméletet egy valós adattal vagy forrással igazolni?",
+            "Érdekes felvetés. De vajon mi történne, ha az energiakeret hirtelen a felére csökkenne? Hogyan alakítanád át a terved?",
+            "Remek irány! Mit gondolsz, a csoportodban lévő másik szakértő (például a Mérnök) egyetértene ezzel az ötleteddel?",
+            "Gondoljuk tovább! Ha ezt az elképzelést egyetlen mondatban kellene bemutatnod a záró Pitch során, hogyan hangzana?"
+        ];
+        let chatStep = 0;
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const container = document.getElementById('chat-container');
+
+            // Tanuló üzenet hozzáadása
+            const studentMsg = document.createElement('div');
+            studentMsg.className = "bg-eco-600/20 p-3 rounded-xl max-w-[85%] ml-auto text-slate-100 text-right";
+            studentMsg.innerHTML = `<span class="block font-bold text-eco-400 mb-1">Te 👤</span>${text}`;
+            container.appendChild(studentMsg);
+
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+
+            // Szokratészi MI válasz generálása
             setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
+                const tutorMsg = document.createElement('div');
+                tutorMsg.className = "bg-slate-800 p-3 rounded-xl max-w-[85%] text-slate-200 animate-fadeIn";
+                
+                const responseText = chatResponses[chatStep % chatResponses.length];
+                chatStep++;
 
+                tutorMsg.innerHTML = `<span class="block font-bold text-eco-400 mb-1">MI-Tutor 🤖</span>${responseText}`;
+                container.appendChild(tutorMsg);
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
+        }
+
+        // LETÖLTÉSEK JELZÉSE
+        function downloadMockFile(fileName) {
+            const alertBox = document.getElementById('download-alert');
+            alertBox.innerText = `A(z) "${fileName}" sikeresen letöltődött! 💾`;
+            alertBox.classList.remove('hidden');
             setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 7000); 
+                alertBox.classList.add('hidden');
+            }, 3000);
         }
 
-        // Lokális letöltési visszajelzés
-        function registerDownloadAttempt(event) {
-            // Ellenőrizzük, hogy helyi fájlrendszerről futunk-e (file://)
-            const isLocalFile = window.location.protocol === 'file:';
-            const filename = event.currentTarget.getAttribute('download');
-            
-            if (isLocalFile) {
-                showNotification(`💻 Lokális tesztelés: Megkezdődött a letöltés. Győződj meg róla, hogy a(z) "${filename}" fájl pontosan az index.html mellett van a mappádban!`, 'success');
-            } else {
-                showNotification(`📥 A(z) "${filename}" letöltése elindult!`);
-            }
+        // MOCK PROMPT MÁSOLÁS
+        function copyMockPrompt() {
+            const promptText = `Te egy Szokratészi MI-Tutor vagy, akit Pappné Takács Krisztina tervezett. Kész válaszokat nem adhatsz ki a diákoknak. Rávezető és provokatív kérdésekkel kell fejlesztened a kritikai gondolkodásukat!`;
+            const temp = document.createElement('textarea');
+            temp.value = promptText;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const alertBox = document.getElementById('download-alert');
+            alertBox.innerText = `A Szokratészi Rendszerprompt vágólapra másolva! 📋`;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 3000);
         }
 
-        // Vágólapra másolás (iframe biztonságos megoldás)
-        function copyToClipboard(elementId) {
-            const blockquote = document.getElementById(elementId);
-            if (!blockquote) return;
-            
-            const text = blockquote.innerText;
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.position = 'fixed'; 
-            document.body.appendChild(textarea);
-            textarea.select();
-            
-            try {
-                document.execCommand('copy');
-                showNotification("Prompt sikeresen kimásolva a vágólapra! Illeszd be a megnyíló MI Tutorba.");
-            } catch (err) {
-                showNotification("Nem sikerült az automatikus másolás, kérlek jelöld ki manuálisan!", "error");
-            }
-            
-            document.body.removeChild(textarea);
-        }
-
-        // Sablon promptok beillesztése, másolása és odagörgetése a MI Tutor megnyitóhoz
-        function quickPrompt(type) {
-            const promptMap = {
-                'brainstorm': 'Egy olyan digitális kampányt tervezek középiskolásoknak, ami a tudatos vízfogyasztásról szól. Adj 5 egyedi, kreatív és meglepő ötletet, amivel felkelthetem a korosztályom figyelmét a közösségi médiában!',
-                'critic': 'A csapatommal azt találtuk ki, hogy egy applikációval gyűjtenénk a diákok szelektív hulladékgyűjtési pontjait. Kérlek, légy kritikus: mondj 3 olyan buktatót vagy nehézséget, amire nem gondoltunk, és javasolj rájuk megoldást!',
-                'search': 'A fenntartható divat témakörét kutatom. Milyen kulcsszavakkal vagy milyen típusú adatbázisokban érdemes keresnem, ha megbízható statisztikákat szeretnék találni a textilipar környezeti hatásairól?'
-            };
-
-            const promptText = promptMap[type];
-            if (promptText) {
-                // Létrehozunk egy átmeneti textareát a másoláshoz
-                const textarea = document.createElement('textarea');
-                textarea.value = promptText;
-                textarea.style.position = 'fixed';
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-
-                // Finom görgetés fel a zöld bemutató kártyához, ahol a megnyitó gomb van
-                const target = document.getElementById('mitutor-info');
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-
-                showNotification(`🧠 Sablon sikeresen kimásolva! Kattints a fenti "Indítsd el a MI Tutort" gombra, és illeszd be a Streamlit felületen!`, 'success');
-            }
+        // Hírlevél
+        function handleNewsletterSubmit(event) {
+            event.preventDefault();
+            const success = document.getElementById('newsletter-success');
+            success.classList.remove('hidden');
+            event.target.reset();
+            setTimeout(() => {
+                success.classList.add('hidden');
+            }, 6000);
         }
     </script>
 </body>
